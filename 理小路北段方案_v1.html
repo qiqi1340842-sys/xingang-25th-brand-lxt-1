@@ -1,0 +1,969 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>理小路北段拍摄执行方案 · v1</title>
+<style>
+  :root {
+    --xingang-red: #C8102E;
+    --xingang-red-deep: #8B0A1F;
+    --gold-heritage: #B8924A;
+    --gold-light: #E8D5A8;
+    --ink: #1A1A1A;
+    --ink-soft: #4A4A4A;
+    --ink-mute: #8A8A8A;
+    --line: #E5E0D8;
+    --line-soft: #F0EBE2;
+    --paper: #FAF7F2;
+    --paper-warm: #F2EDE4;
+    --snow: #F8F9FB;
+    --sky: #5B7E9F;
+    --sky-light: #E1E9F0;
+    --shadow: 0 1px 3px rgba(26, 26, 26, 0.06), 0 8px 24px rgba(26, 26, 26, 0.04);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Source Han Serif SC", "Noto Serif CJK SC", "Songti SC", "STSong", serif;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body { padding: 0 0 80px; }
+
+  .sans { font-family: "Source Han Sans SC", "Noto Sans CJK SC", "PingFang SC", sans-serif; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, var(--xingang-red) 0%, var(--xingang-red-deep) 100%);
+    color: #fff;
+    padding: 56px 8% 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: 45%;
+    background:
+      linear-gradient(135deg, transparent 0%, rgba(91, 126, 159, 0.22) 100%);
+    pointer-events: none;
+  }
+  .hero-meta {
+    font-family: "Source Han Sans SC", "Noto Sans CJK SC", sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    opacity: 0.85;
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-size: 46px;
+    font-weight: 700;
+    margin: 0 0 12px;
+    letter-spacing: 0.05em;
+  }
+  .hero .sub {
+    font-size: 18px;
+    opacity: 0.92;
+    margin: 0 0 4px;
+  }
+  .hero .sub2 {
+    font-size: 14px;
+    opacity: 0.78;
+    margin: 0;
+    font-family: "Source Han Sans SC", "Noto Sans CJK SC", sans-serif;
+  }
+  .hero .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 24px;
+  }
+  .hero .tag {
+    display: inline-block;
+    padding: 4px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 999px;
+    font-size: 12px;
+    font-family: "Source Han Sans SC", "Noto Sans CJK SC", sans-serif;
+    letter-spacing: 0.05em;
+  }
+  .hero .tag.gold { background: var(--gold-heritage); border-color: var(--gold-heritage); }
+  .hero .tag.sky { background: var(--sky); border-color: var(--sky); }
+
+  /* CONTAINER */
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 6%;
+  }
+
+  section { margin: 56px 0 0; }
+
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 12px;
+    margin-bottom: 28px;
+  }
+  .sec-num {
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--xingang-red);
+    letter-spacing: 0.2em;
+  }
+  .sec-head h2 {
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: 0.05em;
+  }
+  .sec-head .sec-en {
+    margin-left: auto;
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 12px;
+    color: var(--ink-mute);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  /* OVERVIEW */
+  .overview {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .overview .cell {
+    background: #fff;
+    padding: 18px 20px;
+  }
+  .overview .label {
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 11px;
+    color: var(--ink-mute);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .overview .val {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .overview .val.red { color: var(--xingang-red); }
+  .overview .val.gold { color: var(--gold-heritage); }
+  .overview .val.sky { color: var(--sky); }
+
+  /* DAY BLOCK */
+  .day {
+    background: #fff;
+    border: 1px solid var(--line);
+    margin-bottom: 24px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .day-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 28px;
+    background: var(--paper-warm);
+    border-bottom: 1px solid var(--line);
+  }
+  .day-head .badge {
+    background: var(--xingang-red);
+    color: #fff;
+    padding: 6px 14px;
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    border-radius: 4px;
+  }
+  .day-head h3 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .day-head .day-meta {
+    margin-left: auto;
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 13px;
+    color: var(--ink-soft);
+    letter-spacing: 0.05em;
+  }
+  .day-body { padding: 24px 28px; }
+
+  /* TIMELINE */
+  .timeline {
+    position: relative;
+    padding-left: 28px;
+    margin: 16px 0;
+  }
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 7px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: var(--line);
+  }
+  .tl-item {
+    position: relative;
+    padding: 6px 0 16px;
+  }
+  .tl-item::before {
+    content: "";
+    position: absolute;
+    left: -24px;
+    top: 12px;
+    width: 12px;
+    height: 12px;
+    background: var(--gold-heritage);
+    border: 2px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px var(--gold-heritage);
+  }
+  .tl-item.major::before {
+    background: var(--xingang-red);
+    box-shadow: 0 0 0 1px var(--xingang-red);
+  }
+  .tl-time {
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--xingang-red);
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+  .tl-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .tl-desc {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.65;
+  }
+  .tl-desc em {
+    background: var(--gold-light);
+    padding: 1px 6px;
+    font-style: normal;
+    border-radius: 3px;
+  }
+
+  /* SPOT CARD */
+  .spots {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 8px;
+  }
+  .spot {
+    background: var(--snow);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--gold-heritage);
+    padding: 18px 20px;
+  }
+  .spot.peak { border-left-color: var(--xingang-red); }
+  .spot.water { border-left-color: var(--sky); }
+  .spot .spot-num {
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 11px;
+    color: var(--ink-mute);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .spot .spot-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 4px 0 8px;
+  }
+  .spot .spot-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .spot .spot-meta .chip {
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 11px;
+    padding: 2px 8px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    color: var(--ink-soft);
+  }
+  .spot .spot-meta .chip.alt { background: var(--xingang-red); color: #fff; border-color: var(--xingang-red); }
+  .spot .spot-meta .chip.alt-sky { background: var(--sky); color: #fff; border-color: var(--sky); }
+  .spot .spot-desc {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+  .spot .spot-note {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--line);
+    font-size: 12.5px;
+    color: var(--ink-mute);
+  }
+  .spot .spot-note strong { color: var(--xingang-red); }
+
+  /* KV TABLE */
+  table.kv {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    background: #fff;
+  }
+  table.kv th, table.kv td {
+    text-align: left;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+  }
+  table.kv th {
+    background: var(--paper-warm);
+    font-weight: 700;
+    color: var(--ink);
+    font-family: "Source Han Sans SC", sans-serif;
+    width: 30%;
+  }
+  table.kv td { color: var(--ink-soft); }
+  table.kv tr:nth-child(even) td { background: var(--snow); }
+  table.kv td strong { color: var(--xingang-red); }
+
+  /* MODULE GRID */
+  .modules {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  .mod {
+    background: #fff;
+    border: 1px solid var(--line);
+    padding: 28px;
+    box-shadow: var(--shadow);
+  }
+  .mod h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed var(--line);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    letter-spacing: 0.05em;
+  }
+  .mod h3::before {
+    content: "";
+    width: 4px;
+    height: 18px;
+    background: var(--gold-heritage);
+  }
+  .mod.danger h3::before { background: var(--xingang-red); }
+  .mod ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .mod li {
+    padding: 8px 0 8px 22px;
+    position: relative;
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    border-bottom: 1px dotted var(--line);
+  }
+  .mod li:last-child { border-bottom: none; }
+  .mod li::before {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 18px;
+    width: 6px;
+    height: 6px;
+    background: var(--gold-heritage);
+    border-radius: 50%;
+  }
+  .mod li strong { color: var(--ink); font-weight: 700; }
+  .mod li em.warn {
+    color: var(--xingang-red);
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  /* HOTEL */
+  .hotels {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .hotel {
+    background: #fff;
+    border: 1px solid var(--line);
+    padding: 20px;
+    box-shadow: var(--shadow);
+  }
+  .hotel.recommend {
+    border: 2px solid var(--gold-heritage);
+    position: relative;
+  }
+  .hotel.recommend::before {
+    content: "推荐";
+    position: absolute;
+    top: -10px;
+    right: 12px;
+    background: var(--gold-heritage);
+    color: #fff;
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 11px;
+    padding: 2px 10px;
+    letter-spacing: 0.1em;
+    border-radius: 3px;
+  }
+  .hotel .h-name {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .hotel .h-loc {
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 12px;
+    color: var(--ink-mute);
+    margin-bottom: 12px;
+  }
+  .hotel .h-price {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--xingang-red);
+    margin-bottom: 12px;
+  }
+  .hotel .h-price small {
+    font-size: 13px;
+    color: var(--ink-mute);
+    font-weight: 400;
+  }
+  .hotel .h-meta {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  /* PENDING */
+  .pending {
+    background: #fff;
+    border: 1px dashed var(--ink-mute);
+    padding: 28px;
+  }
+  .pending h3 {
+    font-size: 18px;
+    color: var(--ink-soft);
+    margin: 0 0 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .pending h3::before {
+    content: "待补";
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 11px;
+    color: #fff;
+    background: var(--ink-mute);
+    padding: 2px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.1em;
+  }
+  .pending-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .pending-grid .item {
+    background: var(--snow);
+    border: 1px solid var(--line);
+    padding: 12px 14px;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+  .pending-grid .item .num {
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 11px;
+    color: var(--ink-mute);
+    display: block;
+    margin-bottom: 4px;
+    letter-spacing: 0.1em;
+  }
+  .pending-grid .item strong { color: var(--ink); }
+
+  /* FOOTNOTE */
+  .foot {
+    text-align: center;
+    color: var(--ink-mute);
+    font-size: 12px;
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    font-family: "Source Han Sans SC", sans-serif;
+    letter-spacing: 0.1em;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 860px) {
+    .hero { padding: 40px 6% 32px; }
+    .hero h1 { font-size: 32px; }
+    main { padding: 0 5%; }
+    .overview { grid-template-columns: repeat(2, 1fr); }
+    .modules { grid-template-columns: 1fr; }
+    .spots { grid-template-columns: 1fr; }
+    .hotels { grid-template-columns: 1fr; }
+    .pending-grid { grid-template-columns: 1fr; }
+    .day-head { flex-wrap: wrap; }
+    .day-head .day-meta { margin-left: 0; }
+  }
+
+  @media print {
+    body { background: #fff; padding: 0; }
+    .hero { background: var(--xingang-red) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .day, .mod, .hotel, .spot, .pending { box-shadow: none; page-break-inside: avoid; }
+    section { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-meta">员工线 1 期 · 北段 · 拍摄执行方案 v1</div>
+  <h1>理小路北段 · 拍摄执行方案</h1>
+  <p class="sub">理县 → 理小路主路（朴头镇-大二普）→ 古尔沟 · 传承主题</p>
+  <p class="sub2">服务于 25 周年品牌升级 · 视频矩阵 v1 · FILM 03 员工线 1 期</p>
+  <div class="tag-row">
+    <span class="tag">1 期档期 9.15-9.25</span>
+    <span class="tag">集中外拍档 ①</span>
+    <span class="tag gold">传承主题</span>
+    <span class="tag sky">2 天 1 晚基础行程</span>
+  </div>
+</header>
+
+<main>
+
+  <!-- 1. 行程总览 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <h2>行程总览</h2>
+      <span class="sec-en">OVERVIEW</span>
+    </div>
+    <div class="overview">
+      <div class="cell">
+        <div class="label">对应视频</div>
+        <div class="val red">FILM 03 员工线 1 期</div>
+      </div>
+      <div class="cell">
+        <div class="label">主题</div>
+        <div class="val gold">传承</div>
+      </div>
+      <div class="cell">
+        <div class="label">基础行程</div>
+        <div class="val">2 天 1 晚</div>
+      </div>
+      <div class="cell">
+        <div class="label">9.15-9.25 档期</div>
+        <div class="val sky">同档 3 件事</div>
+      </div>
+    </div>
+    <p class="sans" style="font-size:13.5px;color:var(--ink-mute);margin-top:16px;">
+      档期 9.15-9.25 内，员工线 1 期采用「2 天 1 晚」为基础单元；具体在 10 天内的天数分配、与西部救援 / 人车家的同档协调见末节「待补信息」。
+    </p>
+  </section>
+
+  <!-- 2. Day 1 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <h2>Day 1 · 成都→理县→理小路主路</h2>
+      <span class="sec-en">DAY ONE</span>
+    </div>
+
+    <div class="day">
+      <div class="day-head">
+        <span class="badge">DAY 1</span>
+        <h3>成都 → 理县 → 朴头镇 → 大二普营地</h3>
+        <span class="day-meta">约 330km · 含 140km 理小路</span>
+      </div>
+      <div class="day-body">
+
+        <h4 style="margin:0 0 8px;font-size:15px;color:var(--ink-soft);" class="sans">⏱ 时间表</h4>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-time">06:40</div>
+            <div class="tl-title">成都机场路总部集合</div>
+            <div class="tl-desc">新茂路 8 号。避开周末和工作日早高峰，6:40 集合、7:00 准时发车。</div>
+          </div>
+          <div class="tl-item major">
+            <div class="tl-time">07:00 – 10:30</div>
+            <div class="tl-title">蓉昌高速·成都→理县</div>
+            <div class="tl-desc">全程 190 公里，3 小时。途中 3 个可充电服务区：<em>成都西（22km）</em> → <em>安德（47.6km）</em> → <em>绵虒（116.9km）</em>。</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">10:30 – 12:00</div>
+            <div class="tl-title">理县补给 + 简餐</div>
+            <div class="tl-desc">理小路全程无充电桩 / 加油站，<em>理县必须补电 / 油加满</em>。纯电车出发续航必须 ≥ 300km。建议同时简餐+设备检查。</div>
+          </div>
+          <div class="tl-item major">
+            <div class="tl-time">12:00 – 18:00</div>
+            <div class="tl-title">理小路主路·朴头镇→大二普营地</div>
+            <div class="tl-desc">起点 <em>朴头镇</em>，终点 <em>大二普营地</em>，全程约 140 公里。全程柏油公路，弯道多、临崖路段多，无烂路。海拔 2000-3850m，<em>慢走即可，不易高反</em>。<em class="warn">硬约束：18:00 前必须出山，禁止 18 点后进山</em>。</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time">21:00 后</div>
+            <div class="tl-title">入住古尔沟·可选星空拍摄</div>
+            <div class="tl-desc">如天气允许，导航「理县二古溪观景台」，从马路对面小路上山拍星空。详见 §6 住宿。</div>
+          </div>
+        </div>
+
+        <h4 style="margin:24px 0 8px;font-size:15px;color:var(--ink-soft);" class="sans">📍 沿途必打卡点位（按顺序·不绕路）</h4>
+        <div class="spots">
+
+          <div class="spot water">
+            <div class="spot-num">STOP 01</div>
+            <div class="spot-name">雷神王瀑布</div>
+            <div class="spot-meta">
+              <span class="chip alt-sky">原始森林</span>
+              <span class="chip">小众人少</span>
+              <span class="chip">徒步轻松</span>
+            </div>
+            <div class="spot-desc">原始森林瀑布场景，光影通透，适合老员工「回归自然」意象镜头。</div>
+            <div class="spot-note">拍摄建议：长焦拍瀑布+人物剪影；声效可收音，作为传承主题的"时间之流"声轨。</div>
+          </div>
+
+          <div class="spot">
+            <div class="spot-num">STOP 02</div>
+            <div class="spot-name">马槽沟营地</div>
+            <div class="spot-meta">
+              <span class="chip">平整停车区</span>
+              <span class="chip">配套洗手间</span>
+              <span class="chip">远眺雪山</span>
+            </div>
+            <div class="spot-desc">标准化停车+歇脚点，配套完整。<strong>仅作剧组休整选项，不取景</strong>。</div>
+            <div class="spot-note">路过不停车；如需休整可短停 10-15 分钟。</div>
+          </div>
+
+          <div class="spot peak">
+            <div class="spot-num">STOP 03 · 出片重头</div>
+            <div class="spot-name">红石滩</div>
+            <div class="spot-meta">
+              <span class="chip alt">晴天巨出片</span>
+              <span class="chip">川西顶级红石</span>
+              <span class="chip">魔界峰雪山</span>
+              <span class="chip">停车 6元/h</span>
+            </div>
+            <div class="spot-desc">晴天巨出片，川西顶级红石景观，正对魔界峰雪山——红石+木桥+溪流+雪山同框，传承主题的核心视觉母题。</div>
+            <div class="spot-note"><strong>拍摄窗口</strong>：必须晴天；上午顺光，下午侧逆光。停车费 6 元/1h，每小时加 1 元。</div>
+          </div>
+
+          <div class="spot peak">
+            <div class="spot-num">STOP 04 · 海拔巅峰</div>
+            <div class="spot-name">理小隧道</div>
+            <div class="spot-meta">
+              <span class="chip alt">7 公里超长</span>
+              <span class="chip alt-sky">3850m</span>
+              <span class="chip">雪山草甸</span>
+            </div>
+            <div class="spot-desc">7 公里超长隧道，穿越雪山腹地。出隧道瞬间海拔升至 3850m，直面雪山草甸，视野豁然开朗——<strong>传承主题"穿越与升华"的最佳意象</strong>。</div>
+            <div class="spot-note">拍摄建议：车内第一视角穿越隧道 + 出隧道瞬间天地开旷的航拍/跟拍。</div>
+          </div>
+
+          <div class="spot water">
+            <div class="spot-num">STOP 05 · 终点站</div>
+            <div class="spot-name">大二普</div>
+            <div class="spot-meta">
+              <span class="chip alt-sky">雪山+溪流</span>
+              <span class="chip">霍比特风草甸</span>
+              <span class="chip">3600m</span>
+              <span class="chip">可野餐玩水</span>
+            </div>
+            <div class="spot-desc">雪山+溪流+霍比特风草甸，可浅滩玩水、拍照。海拔 3600m，不剧烈运动无高反。Day 1 杀青取景地。</div>
+            <div class="spot-note">拍摄建议：人物+草甸+雪山的远景；可拍"传承与未来"时空对话画面（与南段 2 期呼应）。</div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Day 2 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">03</span>
+      <h2>Day 2 · 古尔沟·大沟村穿越</h2>
+      <span class="sec-en">DAY TWO</span>
+    </div>
+
+    <div class="day">
+      <div class="day-head">
+        <span class="badge">DAY 2</span>
+        <h3>理县 → 野趣溪谷露营地 → 大沟村道路尽头 → 返程</h3>
+        <span class="day-meta">约 230km · 含 15km 非铺装碎石</span>
+      </div>
+      <div class="day-body">
+
+        <table class="kv">
+          <tr><th>定位</th><td>川西小众秘境——米亚罗古尔沟大沟村，紧邻理小路，原始高山草原+森林+溪流+秋季彩林</td></tr>
+          <tr><th>导航</th><td>直接设置 <strong>「野趣溪谷露营地」</strong> 为目的地（探险起点）</td></tr>
+          <tr><th>路程</th><td>成都出发约 200 多公里，3-4 小时；基本全程高速，古尔沟收费站驶出后很快到起点</td></tr>
+          <tr><th>核心穿越段</th><td>露营地深入大沟村至道路尽头，<strong>约 15 公里非铺装碎石路</strong>，颠簸，30min-1.5h</td></tr>
+          <tr><th>车辆要求</th><td><strong>强烈推荐 SUV/越野车</strong>；轿车慎入，容易刮底盘</td></tr>
+          <tr><th>最佳季节</th><td><strong style="color:var(--xingang-red);">10-11 月彩林（高光）</strong></td></tr>
+        </table>
+
+        <h4 style="margin:24px 0 12px;font-size:15px;color:var(--ink-soft);" class="sans">🎯 沉浸式玩法（拍摄对应）</h4>
+        <div class="modules" style="margin-top:0;">
+          <div class="mod">
+            <h3>越野穿越</h3>
+            <ul>
+              <li>核心乐趣——原始路况中的驾驶与探索</li>
+              <li>对应传承主题的"开拓"母题</li>
+              <li>车内外双机位，纪录颠簸感与驾驶专注度</li>
+            </ul>
+          </div>
+          <div class="mod">
+            <h3>轻装徒步</h3>
+            <ul>
+              <li>道路尽头停车，步入森林草甸</li>
+              <li>老员工在草甸中行走/驻足，<strong>人物+大场景</strong>出片</li>
+            </ul>
+          </div>
+          <div class="mod">
+            <h3>野趣露营</h3>
+            <ul>
+              <li>溪流旁平坦草地，剧组与老员工共进午餐</li>
+              <li>对话场景自然素材——传承主题情感高潮</li>
+            </ul>
+          </div>
+          <div class="mod">
+            <h3>风光摄影</h3>
+            <ul>
+              <li>每一步都是风景，秋季快门停不下来</li>
+              <li>可同步收空镜，用于主片头/转场/结尾</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 车辆与续航 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">04</span>
+      <h2>车辆与续航管理</h2>
+      <span class="sec-en">VEHICLE</span>
+    </div>
+    <table class="kv">
+      <tr><th>出发集合</th><td>成都机场路总部（新茂路 8 号）· 6:40 集合 · 7:00 发车</td></tr>
+      <tr><th>高速段</th><td>蓉昌高速·成都→理县 · 190km · 3h</td></tr>
+      <tr><th>3 个服务区</th><td>成都西（22km）· 安德（47.6km）· 绵虒（116.9km）—均可充电</td></tr>
+      <tr><th>理县补给</th><td><strong>理小路全程无充电桩 / 加油站，理县必须补满</strong></td></tr>
+      <tr><th>理小路段</th><td>朴头镇（起点）→ 大二普营地（终点）· 约 140km · 柏油公路，弯道多、临崖路段多，无烂路</td></tr>
+      <tr><th>纯电车要求</th><td>出发时续航 <strong>≥ 300km</strong>（避免理县充电桩紧张影响进度）</td></tr>
+      <tr><th>Day 2 车辆</th><td><strong>SUV / 越野车</strong>为佳；轿车禁入大沟村 15km 碎石路</td></tr>
+      <tr><th>车队配置</th><td>前车+收尾车配对讲机；中间车辆保持车距；驾驶员 2-3h 轮换</td></tr>
+    </table>
+  </section>
+
+  <!-- 5. 装备与清单 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">05</span>
+      <h2>剧组+演员装备清单</h2>
+      <span class="sec-en">GEAR LIST</span>
+    </div>
+    <div class="modules">
+      <div class="mod">
+        <h3>穿搭（昼夜温差 15℃+）</h3>
+        <ul>
+          <li>内层 <strong>速干衣</strong> + 外层 <strong>冲锋衣 / 薄羽绒服</strong></li>
+          <li><strong>帽子</strong> · <strong>墨镜</strong> · 高倍防晒霜</li>
+          <li>裤子 <strong>防风</strong>（不允许短裤 / 裙装）</li>
+          <li>鞋子 <strong>防滑</strong>（玩水可带拖鞋）</li>
+        </ul>
+      </div>
+      <div class="mod">
+        <h3>物资（重中之重）</h3>
+        <ul>
+          <li><strong>氧气罐</strong> · <strong>葡萄糖口服液</strong>（老员工 / 老人小孩必备）</li>
+          <li><strong>干粮</strong> · <strong>饮用水</strong> · <strong>路餐</strong>（沿途无商店）</li>
+          <li><strong>晕车药</strong>（弯道超多）· <strong>充电宝</strong> · <strong>离线地图</strong>（山区信号差）</li>
+          <li><strong>少量现金</strong> · <strong>垃圾袋</strong>（无痕出游）</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. 住宿 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">06</span>
+      <h2>住宿方案</h2>
+      <span class="sec-en">HOTEL</span>
+    </div>
+    <div class="hotels">
+
+      <div class="hotel">
+        <div class="h-name">象嘉噶宗庄园</div>
+        <div class="h-loc">理县古尔沟</div>
+        <div class="h-price">¥899 <small>/ 预估·双床房</small></div>
+        <div class="h-meta">高端定位，适合有 VIP 嘉宾随行时的首选；环境最完整，拍摄配套空间充裕。</div>
+      </div>
+
+      <div class="hotel recommend">
+        <div class="h-name">色卡麦朵</div>
+        <div class="h-loc">理县古尔沟</div>
+        <div class="h-price">¥525 <small>/ 预估·双床房</small></div>
+        <div class="h-meta">性价比推荐。房间与公共区域风格契合品牌调性，适合主剧组+核心演员入住。</div>
+      </div>
+
+      <div class="hotel">
+        <div class="h-name">嘉绒索郎民宿</div>
+        <div class="h-loc">理县古尔沟</div>
+        <div class="h-price">¥269 <small>/ 预估·双床房</small></div>
+        <div class="h-meta">预算友好，适合剧组大部队/普通工作人员；藏式风格有特色。</div>
+      </div>
+
+    </div>
+    <p style="margin-top:16px;font-size:13.5px;color:var(--ink-soft);" class="sans">
+      ★ <strong>星空拍摄加成</strong>：如天气允许，导航「理县二古溪观景台」，从马路对面小路上山拍星空。Day 1 杀青后是黄金窗口。
+    </p>
+  </section>
+
+  <!-- 7. 安全 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">07</span>
+      <h2>避坑 & 安全提醒</h2>
+      <span class="sec-en">SAFETY</span>
+    </div>
+    <div class="modules">
+      <div class="mod danger">
+        <h3>避坑（硬约束）</h3>
+        <ul>
+          <li><em class="warn">弯道严禁路边停车拍照</em>，易出事故，必须找正规停车区</li>
+          <li><em class="warn">理小路 8:00-18:00 通行，18 点后禁止进山</em>，别贪晚</li>
+          <li>雨季远离河谷，警惕山洪 / 泥石流</li>
+        </ul>
+      </div>
+      <div class="mod">
+        <h3>高反应对</h3>
+        <ul>
+          <li>全线最高海拔 3850m（理小隧道口）· 大二普 3600m</li>
+          <li>全程放缓行动，<strong>避免奔跑跳跃</strong></li>
+          <li>轻微头晕<strong>及时休息</strong>，不硬撑</li>
+          <li>氧气瓶 + 葡萄糖口服液必备</li>
+        </ul>
+      </div>
+      <div class="mod">
+        <h3>自驾规范</h3>
+        <ul>
+          <li>勿弯道占道，会车减速</li>
+          <li>前车+收尾车对讲机，中间车辆保持车距</li>
+          <li>驾驶员 2-3h 轮换，保证睡眠</li>
+        </ul>
+      </div>
+      <div class="mod">
+        <h3>无痕出游（品牌态度）</h3>
+        <ul>
+          <li>剧组全员执行<strong>无痕游玩，带走垃圾</strong></li>
+          <li>拍摄道具 / 废弃电池 / 胶带统一收纳，不遗留</li>
+          <li>不折损植被、不惊扰野生动物、不进入未开发区域</li>
+          <li>在视频中显性传递「无痕新港」品牌态度</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. 待补 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">08</span>
+      <h2>需团队确认</h2>
+      <span class="sec-en">PENDING</span>
+    </div>
+    <div class="pending">
+      <h3>需要您确认或补给的细节</h3>
+      <div class="pending-grid">
+        <div class="item">
+          <span class="num">01</span>
+          <strong>老员工人选 3-4 位</strong>：是否已锁定？是否需要 1-2 周前访谈？是否本人愿意出镜？
+        </div>
+        <div class="item">
+          <span class="num">02</span>
+          <strong>9.15-9.25 档期分配</strong>：10 天内「2 天 1 晚」基础单元跑几次？是同批老员工 2 次，还是换不同老员工各 1 次？
+        </div>
+        <div class="item">
+          <span class="num">03</span>
+          <strong>同档出差协调</strong>：与西部救援（川西/318）、人车家（员工/车主家庭跟拍）三件事的人员/车辆/差旅如何分摊？
+        </div>
+        <div class="item">
+          <span class="num">04</span>
+          <strong>剧组规模与角色</strong>：导演/摄影/录音/灯光/制片/司机/演员/化妆，几人？是否需要外聘？
+        </div>
+        <div class="item">
+          <span class="num">05</span>
+          <strong>器材清单</strong>：航拍在 3850m 高原的可行性（无人机低温/高海拔性能）？收音/灯光/稳定器？
+        </div>
+        <div class="item">
+          <span class="num">06</span>
+          <strong>住宿定档</strong>：推荐色卡麦朵（525），是否定？还是三家各定几间？
+        </div>
+        <div class="item">
+          <span class="num">07</span>
+          <strong>保险与医疗</strong>：剧组+老员工+家属的旅游意外险？最近医院（理县/古尔沟/米亚罗）？
+        </div>
+        <div class="item">
+          <span class="num">08</span>
+          <strong>预算与审批</strong>：1 期整体预算区间（差旅/食宿/器材/演员费/保险）？总裁办审批节奏？
+        </div>
+        <div class="item">
+          <span class="num">09</span>
+          <strong>2 期 10.17-10.18 南段</strong>（小金-四姑娘山-夹金山·「未来」主题）是否同步细化？还是先做北段做透？
+        </div>
+        <div class="item">
+          <span class="num">10</span>
+          <strong>「传承」主题的内容钩子</strong>：老员工具体口述什么故事？新港 25 年关键节点哪几个？是否需要先做内容采访脚本？
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="foot">
+    方案 v1 · 数据依据：用户口述整理 · 2026-09-12 · 需团队确认后定稿
+  </div>
+
+</main>
+
+</body>
+</html>
