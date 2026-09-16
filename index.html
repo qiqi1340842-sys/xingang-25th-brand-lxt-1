@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>新港 25 周年 · 理小路北段方案</title>
+<title>新港 25 周年 · 品牌升级项目 · GitHub Pages</title>
 <style>
   * { box-sizing: border-box; }
   body {
@@ -18,13 +18,13 @@
     justify-content: center;
     padding: 40px 20px;
   }
-  .card {
-    max-width: 640px;
-    background: #fff;
-    border: 1px solid #E5E0D8;
-    box-shadow: 0 1px 3px rgba(26,26,26,0.06), 0 12px 32px rgba(26,26,26,0.08);
-    padding: 48px 44px;
+  .wrap {
+    max-width: 760px;
+    width: 100%;
+  }
+  .header {
     text-align: center;
+    margin-bottom: 32px;
   }
   .live {
     display: inline-block;
@@ -35,86 +35,166 @@
     font-weight: 700;
     letter-spacing: 0.3em;
     padding: 4px 14px;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
   }
-  h1 {
+  .header h1 {
     font-size: 28px;
     font-weight: 700;
-    margin: 0 0 8px;
-    color: #1A1A1A;
+    margin: 0 0 6px;
     letter-spacing: 0.04em;
   }
-  .sub {
-    font-size: 14px;
+  .header .sub {
+    font-size: 13px;
     color: #8A8A8A;
     margin: 0 0 4px;
     font-family: "Source Han Sans SC", sans-serif;
-  }
-  .meta {
-    font-size: 12px;
-    color: #B8924A;
-    margin: 0 0 32px;
-    font-family: "Source Han Sans SC", sans-serif;
     letter-spacing: 0.15em;
   }
-  .desc {
-    font-size: 14px;
-    line-height: 1.8;
-    color: #4A4A4A;
-    margin: 0 0 32px;
-    padding: 0 12px;
-    border-left: 3px solid #B8924A;
-    text-align: left;
+  .header .meta {
+    font-size: 12px;
+    color: #B8924A;
+    margin: 0;
+    font-family: "Source Han Sans SC", sans-serif;
+    letter-spacing: 0.2em;
   }
-  .desc strong { color: #C8102E; }
+
+  .item {
+    background: #fff;
+    border: 1px solid #E5E0D8;
+    box-shadow: 0 1px 3px rgba(26,26,26,0.06), 0 8px 24px rgba(26,26,26,0.06);
+    padding: 28px 32px;
+    margin-bottom: 18px;
+  }
+  .item-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .item-tag {
+    display: inline-block;
+    background: #C8102E;
+    color: #fff;
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    padding: 3px 10px;
+  }
+  .item-tag.gold { background: #B8924A; }
+  .item-tag.moss { background: #4A6741; }
+  .item-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+    color: #1A1A1A;
+    letter-spacing: 0.03em;
+  }
+  .item-meta {
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 11px;
+    color: #8A8A8A;
+    letter-spacing: 0.15em;
+    margin-left: auto;
+  }
+  .item-desc {
+    font-size: 13.5px;
+    line-height: 1.75;
+    color: #4A4A4A;
+    margin: 0 0 20px;
+    padding: 12px 14px;
+    background: #F8F9FB;
+    border-left: 3px solid #B8924A;
+  }
+  .item-desc strong { color: #C8102E; }
+  .item-desc .r {
+    display: inline-block;
+    background: #fff;
+    border: 1px solid #E5E0D8;
+    padding: 2px 8px;
+    margin: 2px 4px 2px 0;
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 11px;
+    color: #4A6741;
+    letter-spacing: 0.05em;
+  }
   .btn-row {
     display: flex;
-    gap: 12px;
-    justify-content: center;
+    gap: 10px;
     flex-wrap: wrap;
   }
   .btn {
     display: inline-block;
-    padding: 12px 28px;
+    padding: 10px 22px;
     background: #C8102E;
     color: #fff;
     text-decoration: none;
     font-family: "Source Han Sans SC", sans-serif;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     border-radius: 4px;
     transition: background 0.2s;
   }
   .btn:hover { background: #8B0A1F; }
   .btn.gold { background: #B8924A; }
   .btn.gold:hover { background: #967640; }
+  .btn.moss { background: #4A6741; }
+  .btn.moss:hover { background: #2F4527; }
+
   .foot {
-    margin-top: 32px;
+    text-align: center;
+    margin-top: 28px;
     font-size: 11px;
     color: #B0A99E;
     letter-spacing: 0.1em;
+    font-family: "Source Han Sans SC", sans-serif;
   }
 </style>
 </head>
 <body>
-  <div class="card">
-    <div class="live">● LIVE</div>
-    <h1>理小路北段 · 拍摄执行方案</h1>
-    <p class="sub">v1 · FILM 03 员工线 1 期</p>
-    <p class="meta">2026-09-12 · 集中外拍档 ① · 传承主题</p>
-
-    <div class="desc">
-      本页面为<strong>新港 25 周年品牌升级</strong>项目「员工线 1 期·北段」拍摄执行方案的公开托管入口。<br>
-      数据依据用户口述整理，8 章节涵盖 Day 1 / Day 2 时间表、5 个打卡点位、车辆与续航、装备清单、住宿方案、安全提醒与待团队确认事项。
+  <div class="wrap">
+    <div class="header">
+      <div class="live">● LIVE</div>
+      <h1>新港 25 周年 · 品牌升级项目</h1>
+      <p class="sub">FILM 03 · 员工线 1 期</p>
+      <p class="meta">2026-09 · 集中外拍档 ① · 传承主题</p>
     </div>
 
-    <div class="btn-row">
-      <a class="btn" href="理小路北段方案_v1.html">打开方案（中文文件名）</a>
-      <a class="btn gold" href="lxt_v1.html">打开方案（英文链接）</a>
+    <div class="item">
+      <div class="item-head">
+        <span class="item-tag">01 · 拍摄执行</span>
+        <h2 class="item-title">理小路北段 · 拍摄执行方案</h2>
+        <span class="item-meta">v1 · 2026-09-12</span>
+      </div>
+      <div class="item-desc">
+        8 章节完整方案。<span class="r">Day1/Day2 时间表</span><span class="r">5 个打卡点位</span><span class="r">车辆与续航</span><span class="r">装备清单</span><span class="r">住宿方案</span><span class="r">安全提醒</span><span class="r">待团队确认事项</span>
+      </div>
+      <div class="btn-row">
+        <a class="btn" href="理小路北段方案_v1.html">中文文件名</a>
+        <a class="btn gold" href="lxt_v1.html">英文链接</a>
+      </div>
     </div>
 
-    <div class="foot">新港 25 周年 · 品牌升级项目 · GitHub Pages 公开托管</div>
+    <div class="item">
+      <div class="item-head">
+        <span class="item-tag moss">02 · 采访脚本</span>
+        <h2 class="item-title">员工线 · 老员工口述采访脚本</h2>
+        <span class="item-meta">v1 · 2026-09-15</span>
+      </div>
+      <div class="item-desc">
+        传承主题 · <strong>5 模块 11 题</strong> · 30-45 分钟完整访谈。<span class="r">开场引入</span><span class="r">传承核心</span><span class="r">25 年故事钩子</span><span class="r">画面配对</span><span class="r">收束金句</span><span class="r">拍摄地点与时间</span><span class="r">设备清单</span><span class="r">访谈技巧与避坑</span><span class="r">后期剪辑地图</span>
+      </div>
+      <div class="btn-row">
+        <a class="btn moss" href="员工线采访脚本_v1.html">中文文件名</a>
+        <a class="btn gold" href="staff_interview_v1.html">英文链接</a>
+      </div>
+    </div>
+
+    <div class="foot">
+      新港 25 周年 · 品牌升级项目 · GitHub Pages 公开托管 · 数据依据用户口述整理
+    </div>
   </div>
 </body>
 </html>
