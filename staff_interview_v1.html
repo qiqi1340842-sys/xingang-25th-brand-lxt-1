@@ -1,0 +1,1053 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>员工线 1 期 · 老员工口述采访脚本 · v1</title>
+<style>
+  :root {
+    --xingang-red: #C8102E;
+    --xingang-red-deep: #8B0A1F;
+    --gold-heritage: #B8924A;
+    --gold-light: #E8D5A8;
+    --ink: #1A1A1A;
+    --ink-soft: #4A4A4A;
+    --ink-mute: #8A8A8A;
+    --line: #E5E0D8;
+    --line-soft: #F0EBE2;
+    --paper: #FAF7F2;
+    --paper-warm: #F2EDE4;
+    --snow: #F8F9FB;
+    --sky: #5B7E9F;
+    --sky-light: #E1E9F0;
+    --moss: #4A6741;
+    --moss-light: #DAE5D4;
+    --shadow: 0 1px 3px rgba(26, 26, 26, 0.06), 0 8px 24px rgba(26, 26, 26, 0.04);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Source Han Serif SC", "Noto Serif CJK SC", "Songti SC", "STSong", serif;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body { padding: 0 0 80px; }
+
+  .sans { font-family: "Source Han Sans SC", "Noto Sans CJK SC", "PingFang SC", sans-serif; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, var(--xingang-red) 0%, var(--xingang-red-deep) 100%);
+    color: #fff;
+    padding: 56px 8% 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: 45%;
+    background: linear-gradient(135deg, transparent 0%, rgba(184, 146, 74, 0.18) 100%);
+    pointer-events: none;
+  }
+  .hero-meta {
+    font-family: "Source Han Sans SC", "Noto Sans CJK SC", sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    opacity: 0.85;
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-size: 46px;
+    font-weight: 700;
+    margin: 0 0 12px;
+    letter-spacing: 0.05em;
+  }
+  .hero .sub {
+    font-size: 18px;
+    opacity: 0.92;
+    margin: 0 0 4px;
+  }
+  .hero .sub2 {
+    font-size: 14px;
+    opacity: 0.78;
+    margin: 0;
+    font-family: "Source Han Sans SC", "Noto Sans CJK SC", sans-serif;
+  }
+  .hero .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 24px;
+  }
+  .hero .tag {
+    display: inline-block;
+    padding: 4px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 999px;
+    font-size: 12px;
+    font-family: "Source Han Sans SC", "Noto Sans CJK SC", sans-serif;
+    letter-spacing: 0.05em;
+  }
+  .hero .tag.gold { background: var(--gold-heritage); border-color: var(--gold-heritage); }
+  .hero .tag.moss { background: var(--moss); border-color: var(--moss); }
+
+  /* CONTAINER */
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 6%;
+  }
+
+  section { margin: 56px 0 0; }
+
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 12px;
+    margin-bottom: 28px;
+  }
+  .sec-num {
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--xingang-red);
+    letter-spacing: 0.2em;
+  }
+  .sec-head h2 {
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: 0.05em;
+  }
+  .sec-head .sec-en {
+    margin-left: auto;
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 12px;
+    color: var(--ink-mute);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  /* META GRID */
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .meta-grid .cell {
+    background: #fff;
+    padding: 16px 20px;
+  }
+  .meta-grid .label {
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 11px;
+    color: var(--ink-mute);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .meta-grid .val {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .meta-grid .val.red { color: var(--xingang-red); }
+  .meta-grid .val.gold { color: var(--gold-heritage); }
+  .meta-grid .val.moss { color: var(--moss); }
+
+  /* PRINCIPLE BAR */
+  .principle {
+    background: var(--paper-warm);
+    border-left: 4px solid var(--xingang-red);
+    padding: 18px 24px;
+    margin: 24px 0;
+    font-size: 14.5px;
+    color: var(--ink-soft);
+    line-height: 1.8;
+  }
+  .principle strong { color: var(--xingang-red); }
+
+  /* MODULE HEAD */
+  .mod-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin: 36px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed var(--line);
+  }
+  .mod-head .badge {
+    background: var(--moss);
+    color: #fff;
+    padding: 4px 10px;
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    border-radius: 3px;
+  }
+  .mod-head .badge.b1 { background: var(--sky); }
+  .mod-head .badge.b2 { background: var(--gold-heritage); }
+  .mod-head .badge.b3 { background: var(--xingang-red); }
+  .mod-head .badge.b4 { background: var(--moss); }
+  .mod-head h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 0.05em;
+  }
+  .mod-head .mod-desc {
+    margin-left: auto;
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 12px;
+    color: var(--ink-mute);
+    letter-spacing: 0.1em;
+  }
+
+  /* QUESTION CARD */
+  .q-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    padding: 24px 28px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--moss);
+  }
+  .q-card.b1 { border-left-color: var(--sky); }
+  .q-card.b2 { border-left-color: var(--gold-heritage); }
+  .q-card.b3 { border-left-color: var(--xingang-red); }
+  .q-card.b4 { border-left-color: var(--moss); }
+
+  .q-num {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .q-num .num {
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--xingang-red);
+    letter-spacing: 0.15em;
+  }
+  .q-num .type {
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 11px;
+    color: var(--ink-mute);
+    padding: 2px 8px;
+    background: var(--snow);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+  }
+  .q-num .time {
+    margin-left: auto;
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 11px;
+    color: var(--ink-mute);
+    letter-spacing: 0.05em;
+  }
+
+  .q-text {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0 0 16px;
+    line-height: 1.6;
+    letter-spacing: 0.02em;
+  }
+
+  .q-meta {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dotted var(--line);
+  }
+  .q-meta .field {
+    background: var(--snow);
+    padding: 10px 14px;
+    border-radius: 3px;
+  }
+  .q-meta .field .lbl {
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 10px;
+    color: var(--ink-mute);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .q-meta .field .content {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+  .q-meta .field .content strong { color: var(--ink); }
+  .q-meta .field .content em.tip {
+    color: var(--xingang-red);
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  /* PREP SECTION */
+  .prep-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .prep {
+    background: #fff;
+    border: 1px solid var(--line);
+    padding: 20px 24px;
+    box-shadow: var(--shadow);
+  }
+  .prep h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed var(--line);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .prep h3::before {
+    content: "";
+    width: 3px;
+    height: 14px;
+    background: var(--gold-heritage);
+  }
+  .prep ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .prep li {
+    padding: 5px 0 5px 18px;
+    position: relative;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    line-height: 1.65;
+    border-bottom: 1px dotted var(--line);
+  }
+  .prep li:last-child { border-bottom: none; }
+  .prep li::before {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 14px;
+    width: 5px;
+    height: 5px;
+    background: var(--gold-heritage);
+    border-radius: 50%;
+  }
+  .prep li strong { color: var(--ink); }
+  .prep li em.warn {
+    color: var(--xingang-red);
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  /* LAYERED FOLLOWUP */
+  .followup {
+    background: var(--paper-warm);
+    border: 1px dashed var(--gold-heritage);
+    padding: 14px 18px;
+    margin-top: 10px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.65;
+  }
+  .followup .label {
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 10px;
+    color: var(--gold-heritage);
+    letter-spacing: 0.15em;
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  /* TIMELINE */
+  .timeline {
+    position: relative;
+    padding-left: 28px;
+    margin: 12px 0;
+  }
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 7px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: var(--line);
+  }
+  .tl-item {
+    position: relative;
+    padding: 6px 0 14px;
+  }
+  .tl-item::before {
+    content: "";
+    position: absolute;
+    left: -24px;
+    top: 12px;
+    width: 11px;
+    height: 11px;
+    background: var(--gold-heritage);
+    border: 2px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px var(--gold-heritage);
+  }
+  .tl-time {
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--xingang-red);
+    letter-spacing: 0.05em;
+    margin-bottom: 3px;
+  }
+  .tl-title {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .tl-desc {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  /* FOOTNOTE */
+  .foot {
+    text-align: center;
+    color: var(--ink-mute);
+    font-size: 12px;
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    font-family: "Source Han Sans SC", sans-serif;
+    letter-spacing: 0.1em;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 860px) {
+    .hero { padding: 40px 6% 32px; }
+    .hero h1 { font-size: 32px; }
+    main { padding: 0 5%; }
+    .meta-grid { grid-template-columns: repeat(2, 1fr); }
+    .q-meta { grid-template-columns: 1fr; }
+    .prep-grid { grid-template-columns: 1fr; }
+    .mod-head { flex-wrap: wrap; }
+    .mod-head .mod-desc { margin-left: 0; }
+  }
+
+  @media print {
+    body { background: #fff; padding: 0; }
+    .hero { background: var(--xingang-red) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .q-card, .prep { box-shadow: none; page-break-inside: avoid; }
+    section { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-meta">员工线 1 期 · 北段 · 老员工口述采访脚本 v1</div>
+  <h1>员工线 · 老员工口述采访脚本</h1>
+  <p class="sub">传承主题 · 11 道核心问题 · 30-45 分钟完整访谈</p>
+  <p class="sub2">服务于 25 周年品牌升级 · FILM 03 · 配合北段 5 个打卡点位拍摄</p>
+  <div class="tag-row">
+    <span class="tag">1 期档期 9.15-9.25</span>
+    <span class="tag gold">传承主题</span>
+    <span class="tag moss">5 模块 11 题</span>
+    <span class="tag">单次 30-45min</span>
+  </div>
+</header>
+
+<main>
+
+  <!-- 0. 总览 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">00</span>
+      <h2>脚本总览</h2>
+      <span class="sec-en">OVERVIEW</span>
+    </div>
+
+    <div class="meta-grid">
+      <div class="cell">
+        <div class="label">访谈主题</div>
+        <div class="val red">传承</div>
+      </div>
+      <div class="cell">
+        <div class="label">问题数量</div>
+        <div class="val">11 题 · 5 模块</div>
+      </div>
+      <div class="cell">
+        <div class="label">建议时长</div>
+        <div class="val gold">30-45 分钟</div>
+      </div>
+      <div class="cell">
+        <div class="label">受访对象</div>
+        <div class="val moss">3-4 位老员工</div>
+      </div>
+    </div>
+
+    <div class="principle">
+      <strong>核心原则</strong>：不问大道理，问具体年份 / 具体人物 / 具体画面。<br>
+      每个问题对应「一个可拍摄的画面」+「一段可剪的金句」+「一处与北段点位呼应的镜头语言」。<br>
+      目标：让老员工忘记「在被采访」，回到「在跟朋友聊当年」。
+    </div>
+
+    <h3 style="margin:20px 0 10px;font-size:14px;color:var(--ink-soft);" class="sans">📋 模块结构</h3>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-time">A · 开场引入（Q1-Q2）</div>
+        <div class="tl-title">放下紧张感 · 回到"当年那个我"</div>
+        <div class="tl-desc">2 题 · 约 5-8 分钟 · 不进入主题，先建立信任与对话感</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">B · 传承核心（Q3-Q5）</div>
+        <div class="tl-title">具象化"传承"的动作与瞬间</div>
+        <div class="tl-desc">3 题 · 约 10-15 分钟 · <strong>80% 的金句来源</strong>，情绪最重的段落</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">C · 25 年故事钩子（Q6-Q8）</div>
+        <div class="tl-title">用故事代替评价 · 用客户代替群体</div>
+        <div class="tl-desc">3 题 · 约 10-12 分钟 · 戏剧性张力来源，可剪独立短片</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">D · 画面配对（Q9-Q10）</div>
+        <div class="tl-title">外部自然 ↔ 内部品牌记忆的意象缝合</div>
+        <div class="tl-desc">2 题 · 约 6-8 分钟 · <strong>必须在北段 5 个点位实地提问</strong></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">E · 收束金句（Q11）</div>
+        <div class="tl-title">留给观众带走的最后一句</div>
+        <div class="tl-desc">1 题 · 约 2-3 分钟 · 全片最后一镜 · 字幕卡 / 社媒传播核心句</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 模块 A -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <h2>模块 A · 开场引入</h2>
+      <span class="sec-en">MODULE A · OPENING</span>
+    </div>
+
+    <div class="mod-head">
+      <span class="badge b1">A</span>
+      <h3>放下紧张感 · 回到"当年那个我"</h3>
+      <span class="mod-desc">2 题 · 5-8 分钟</span>
+    </div>
+
+    <div class="q-card b1">
+      <div class="q-num">
+        <span class="num">Q1 · 5min</span>
+        <span class="type">导入 · 时空定位</span>
+        <span class="time">建议首问</span>
+      </div>
+      <p class="q-text">你哪一年加入新港？当时 30 岁 / 23 岁 / 28 岁的你，是怎么走进新茂路 8 号那扇门的？</p>
+      <div class="q-meta">
+        <div class="field">
+          <div class="lbl">提问意图</div>
+          <div class="content">让对方回到<strong>具体时空细节</strong>；「30 岁的我」这种代入感比「我加入新港」更容易打开话匣子。</div>
+        </div>
+        <div class="field">
+          <div class="lbl">期望画面</div>
+          <div class="content">大二普草甸中景，<strong>面朝雪山</strong>；不急，让他们先回忆、停顿。<br>建议 <em class="tip">不用反光板</em>，让自然光给出层次。</div>
+        </div>
+        <div class="field">
+          <div class="lbl">期望方向</div>
+          <div class="content">具体到<strong>年份 / 季节 / 当天的画面</strong>（"那年夏天" / "穿着什么衣服" / "谁面试的我"）。</div>
+        </div>
+        <div class="field">
+          <div class="lbl">剪辑用法</div>
+          <div class="content">开场第一镜 · 字幕叠加 <em class="tip">「新港 25 年 · 传承」</em>。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-card b1">
+      <div class="q-num">
+        <span class="num">Q2 · 3min</span>
+        <span class="type">对比 · 初心 vs 现在</span>
+      </div>
+      <p class="q-text">你最初被新港吸引的是什么？现在回头看，那种吸引力变了吗？</p>
+      <div class="q-meta">
+        <div class="field">
+          <div class="lbl">提问意图</div>
+          <div class="content">捕捉「初心 vs 现在」的对比，自然带出传承的内在张力——<strong>变化的是工具，不变的是什么</strong>。</div>
+        </div>
+        <div class="field">
+          <div class="lbl">期望画面</div>
+          <div class="content">老员工走动 / 转身，<strong>镜头跟住</strong>；草甸风动 + 雪山背景虚化。</div>
+        </div>
+        <div class="field">
+          <div class="lbl">期望方向</div>
+          <div class="content">希望听到<strong>具体的人 / 具体的话 / 具体的画面</strong>，不是抽象的"企业文化"。</div>
+        </div>
+        <div class="field">
+          <div class="lbl">剪辑用法</div>
+          <div class="content">与 Q5「传下去什么」形成<em class="tip">首尾呼应</em>。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 模块 B -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <h2>模块 B · 传承核心</h2>
+      <span class="sec-en">MODULE B · HERITAGE</span>
+    </div>
+
+    <div class="mod-head">
+      <span class="badge b2">B</span>
+      <h3>具象化"传承"的动作与瞬间</h3>
+      <span class="mod-desc">3 题 · 10-15 分钟 · 情绪最重</span>
+    </div>
+
+    <div class="q-card b2">
+      <div class="q-num">
+        <span class="num">Q3 · 5min</span>
+        <span class="type">核心 · 动作化</span>
+        <span class="time">80% 出金句</span>
+      </div>
+      <p class="q-text">在新港这些年，你印象最深的一次「交接」是什么？</p>
+      <div class="q-meta">
+        <div class="field">
+          <div class="lbl">提问意图</div>
+          <div class="content">让"传承"<strong>具象到一个动作</strong>（递扳手 / 签合同 / 教客户开车 / 带徒弟）。</div>
+        </div>
+        <div class="field">
+          <div class="lbl">期望画面</div>
+          <div class="content"><strong>特写手部</strong> + 远景雪山背景叠化（用后期做画面交叉剪辑）。</div>
+        </div>
+        <div class="field">
+          <div class="lbl">期望方向</div>
+          <div class="content">具体到「交接给了谁」+「交的是什么」+「那一刻你在想什么」。</div>
+        </div>
+        <div class="field">
+          <div class="lbl">剪辑用法</div>
+          <div class="content"><em class="tip">传承主题核心金句来源</em>；80% 的概率会出"年度最佳金句"。</div>
+        </div>
+      </div>
+      <div class="followup">
+        <span class="label">🔁 三层追问 · 备好不出声</span>
+        <strong>L1</strong> 你当时具体做了什么动作？<br>
+        <strong>L2</strong> 那一刻你脑子里在想什么？<br>
+        <strong>L3</strong> 如果回到那天，你会改变什么吗？
+      </div>
+    </div>
+
+    <div class="q-card b2">
+      <div class="q-num">
+        <span class="num">Q4 · 5min</span>
+        <span class="type">核心 · 自我确认</span>
+      </div>
+      <p class="q-text">有没有哪个瞬间，你突然觉得「新港的精神在我手里了」？</p>
+      <div class="q-meta">
+        <div class="field">
+          <div class="lbl">提问意图</div>
+          <div class="content">捕捉传承的<strong>"自我确认"瞬间</strong>——不是被授予，而是接住了。</div>
+        </div>
+        <div class="field">
+          <div class="lbl">期望画面</div>
+          <div class="content"><strong>长焦特写眼神</strong> + 自然光 · 安静 · 不打断。</div>
+        </div>
+        <div class="field">
+          <div class="lbl">期望方向</div>
+          <div class="content">希望对方讲<strong>具体的一个瞬间</strong>（比如"那次客户出了事故我半夜赶到现场"）。</div>
+        </div>
+        <div class="field">
+          <div class="lbl">剪辑用法</div>
+          <div class="content">主题高潮 · 情绪拐点 · 配乐升 key 节点。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-card b2">
+      <div class="q-num">
+        <span class="num">Q5 · 5min</span>
+        <span class="type">核心 · 价值观锚定</span>
+      </div>
+      <p class="q-text">你最想把新港的什么「传」给下一代新港人？</p>
+      <div class="q-meta">
+        <div class="field">
+          <div class="lbl">提问意图</div>
+          <div class="content">定义"传承什么"，让对方<strong>主动表达价值观</strong>。</div>
+        </div>
+        <div class="field">
+          <div class="lbl">期望画面</div>
+          <div class="content">老员工<strong>面朝镜头，慢推近景</strong>；后景大二普雪山日落（如果天气允许）。</div>
+        </div>
+        <div class="field">
+          <div class="lbl">期望方向</div>
+          <div class="content">希望听到<strong>非物质层面</strong>的（"客户第一" / "靠谱" / "责任"），而不是设备 / 技术。</div>
+        </div>
+        <div class="field">
+          <div class="lbl">剪辑用法</div>
+          <div class="content"><em class="tip">全片主旨句 · 片尾字幕叠加</em>。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 模块 C -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">03</span>
+      <h2>模块 C · 25 年故事钩子</h2>
+      <span class="sec-en">MODULE C · STORIES</span>
+    </div>
+
+    <div class="mod-head">
+      <span class="badge b3">C</span>
+      <h3>用故事代替评价 · 用客户代替群体</h3>
+      <span class="mod-desc">3 题 · 10-12 分钟 · 戏剧性张力</span>
+    </div>
+
+    <div class="q-card b3">
+      <div class="q-num">
+        <span class="num">Q6 · 4min</span>
+        <span class="type">钩子 · 危机转折</span>
+      </div>
+      <p class="q-text">新港这 25 年里，你印象最深的一次「危机或转折」是什么？当时你做了什么？</p>
+      <div class="q-meta">
+        <div class="field">
+          <div class="lbl">提问意图</div>
+          <div class="content">让历史有戏剧性张力；同时映射"<strong>品牌经得起时间</strong>"的隐喻。</div>
+        </div>
+        <div class="field">
+          <div class="lbl">期望画面</div>
+          <div class="content">大二普<strong>溪流旁，老员工侧脸逆光</strong>，水声作为环境音。</div>
+        </div>
+        <div class="field">
+          <div class="lbl">期望方向</div>
+          <div class="content">希望听到 2008 金融危机 / 2020 疫情 / 某次政策变化 / 某次客户维权等的具体故事。</div>
+        </div>
+        <div class="field">
+          <div class="lbl">剪辑用法</div>
+          <div class="content"><em class="tip">可剪独立短片</em>「风暴中的力量」30 秒版本，社媒二次传播。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-card b3">
+      <div class="q-num">
+        <span class="num">Q7 · 4min</span>
+        <span class="type">钩子 · 客户故事</span>
+      </div>
+      <p class="q-text">有没有哪个客户的故事，到现在还常常想起？</p>
+      <div class="q-meta">
+        <div class="field">
+          <div class="lbl">提问意图</div>
+          <div class="content">用"<strong>具体一个人</strong>"代替"客户群体"，让品牌人性化。</div>
+        </div>
+        <div class="field">
+          <div class="lbl">期望画面</div>
+          <div class="content"><strong>特写手部</strong>（握着咖啡杯 / 翻相册），景深虚化远山。</div>
+        </div>
+        <div class="field">
+          <div class="lbl">期望方向</div>
+          <div class="content">希望是<strong>"陪客户走了 10 年"</strong>的长期故事，而不是一次性交易。</div>
+        </div>
+        <div class="field">
+          <div class="lbl">剪辑用法</div>
+          <div class="content"><em class="tip">「我们服务的不只是车，是人」</em>品牌温度佐证。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-card b3">
+      <div class="q-num">
+        <span class="num">Q8 · 4min</span>
+        <span class="type">钩子 · 变与不变</span>
+      </div>
+      <p class="q-text">你见证过的「最大变化」是什么？不变的是什么？</p>
+      <div class="q-meta">
+        <div class="field">
+          <div class="lbl">提问意图</div>
+          <div class="content">制造对比，凸显"<strong>变的部分是工具，不变的是精神</strong>"。</div>
+        </div>
+        <div class="field">
+          <div class="lbl">期望画面</div>
+          <div class="content">老员工<strong>走路 / 看远方</strong>，自然过渡。<br>可剪一镜到底跟拍。</div>
+        </div>
+        <div class="field">
+          <div class="lbl">期望方向</div>
+          <div class="content">希望听到"客户从燃油车到新能源" / "展厅从 1 家到 N 家" / "我自己从销售到管理"等。</div>
+        </div>
+        <div class="field">
+          <div class="lbl">剪辑用法</div>
+          <div class="content">与 Q5「传下去什么」形成<em class="tip">结构性呼应</em>。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 模块 D -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">04</span>
+      <h2>模块 D · 画面配对</h2>
+      <span class="sec-en">MODULE D · LOCATION</span>
+    </div>
+
+    <div class="mod-head">
+      <span class="badge b4">D</span>
+      <h3>外部自然 ↔ 内部品牌记忆的意象缝合</h3>
+      <span class="mod-desc">2 题 · 6-8 分钟 · 必在北段点位实地</span>
+    </div>
+
+    <div class="q-card b4">
+      <div class="q-num">
+        <span class="num">Q9 · 4min</span>
+        <span class="type">配对 · 自然 ↔ 记忆</span>
+        <span class="time">红石滩 / 理小隧道 / 大二普</span>
+      </div>
+      <p class="q-text">你现在看着这片山河，你想起在新港的哪个时刻？</p>
+      <div class="q-meta">
+        <div class="field">
+          <div class="lbl">提问意图</div>
+          <div class="content">把<strong>外部自然景观</strong>与<strong>内部品牌记忆</strong>链接起来，制造"穿越"的诗意感。</div>
+        </div>
+        <div class="field">
+          <div class="lbl">期望画面</div>
+          <div class="content"><strong>航拍大景</strong> → 切到人物特写（人在天地间的渺小感）。<br>建议航拍 + 手持双机位。</div>
+        </div>
+        <div class="field">
+          <div class="lbl">期望方向</div>
+          <div class="content">希望对方<strong>自己产生联想</strong>（"这种开阔" / "这种红" / "这种穿透感"），不强求。</div>
+        </div>
+        <div class="field">
+          <div class="lbl">剪辑用法</div>
+          <div class="content">全片<em class="tip">视觉高潮</em>·空镜与口述交织 · 配乐升 key。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-card b4">
+      <div class="q-num">
+        <span class="num">Q10 · 4min</span>
+        <span class="type">配对 · 意象缝合</span>
+        <span class="time">雷神王瀑布 / 红石滩 / 大二普</span>
+      </div>
+      <p class="q-text">你觉得这种「时间穿过自然」的感觉，和新港 25 年的「时间穿过团队」有什么相通的地方？</p>
+      <div class="q-meta">
+        <div class="field">
+          <div class="lbl">提问意图</div>
+          <div class="content">把<strong>自然意象</strong>与<strong>品牌主题</strong>做一次意象缝合。</div>
+        </div>
+        <div class="field">
+          <div class="lbl">期望画面</div>
+          <div class="content"><strong>长焦侧逆光</strong> · 人物剪影 · 光影穿过发丝。<br>如果光线对，能出"年度最佳镜头"。</div>
+        </div>
+        <div class="field">
+          <div class="lbl">期望方向</div>
+          <div class="content">希望听到对方<strong>自己的感悟</strong>，不强求"标准答案"。</div>
+        </div>
+        <div class="field">
+          <div class="lbl">剪辑用法</div>
+          <div class="content"><em class="tip">片尾收束金句 · 全片主旨升华</em>。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 模块 E -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">05</span>
+      <h2>模块 E · 收束金句</h2>
+      <span class="sec-en">MODULE E · CLOSING</span>
+    </div>
+
+    <div class="mod-head">
+      <span class="badge b2">E</span>
+      <h3>留给观众带走的最后一句</h3>
+      <span class="mod-desc">1 题 · 2-3 分钟 · 全片最后一镜</span>
+    </div>
+
+    <div class="q-card b2">
+      <div class="q-num">
+        <span class="num">Q11 · 2-3min</span>
+        <span class="type">收束 · 未来寄托</span>
+        <span class="time">必问 · 留金句</span>
+      </div>
+      <p class="q-text">如果用一句话，送给新港的下一个 25 年，你会说什么？</p>
+      <div class="q-meta">
+        <div class="field">
+          <div class="lbl">提问意图</div>
+          <div class="content">定义"<strong>未来寄托</strong>"·给观众一句带走的。</div>
+        </div>
+        <div class="field">
+          <div class="lbl">期望画面</div>
+          <div class="content"><strong>黑起 / 淡入字幕</strong> · 人物最后一个画面定格。<br>无干扰，最纯粹的镜头。</div>
+        </div>
+        <div class="field">
+          <div class="lbl">期望方向</div>
+          <div class="content">希望<strong>短小 · 金句感 · 可被引述</strong>（10-30 字内）。</div>
+        </div>
+        <div class="field">
+          <div class="lbl">剪辑用法</div>
+          <div class="content">全片最后一镜 · <em class="tip">字幕卡 · 社媒传播的核心句</em>。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. 拍摄地点 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">06</span>
+      <h2>拍摄地点与时间</h2>
+      <span class="sec-en">LOCATION & TIME</span>
+    </div>
+
+    <div class="prep-grid">
+      <div class="prep">
+        <h3>📍 主拍地点（建议）</h3>
+        <ul>
+          <li><strong>大二普营地（3600m）</strong>· 主拍场地 · 草甸 + 雪山 + 溪流背景，自然放松感强</li>
+          <li><strong>红石滩</strong>· 晴天可作 D 模块 Q9 的实地提问背景（红石 + 雪山同框）</li>
+          <li><strong>理小隧道口</strong>· 可作 D 模块 Q9 备选（3850m · 出隧道瞬间的"穿越"意象）</li>
+          <li><strong>雷神王瀑布</strong>· 可作 D 模块 Q10 备选（光影穿过林间 · 时间意象）</li>
+        </ul>
+      </div>
+      <div class="prep">
+        <h3>⏰ 拍摄时间窗</h3>
+        <ul>
+          <li><strong>上午 9:00-11:00</strong> · 草甸顺光 · 最佳光线 + 老员工精神最好</li>
+          <li><strong>下午 15:00-17:00</strong> · 侧逆光 · 适合 Q9/Q10 的诗意镜头</li>
+          <li><strong>避免 11:00-14:00</strong> · 3600m 高反风险 + 顶光难看</li>
+          <li><strong>避免 18:00 后</strong> · 理小路通行截止 · 必须出山</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. 设备清单 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">07</span>
+      <h2>设备清单</h2>
+      <span class="sec-en">EQUIPMENT</span>
+    </div>
+
+    <div class="prep-grid">
+      <div class="prep">
+        <h3>🎥 主机位 A-cam</h3>
+        <ul>
+          <li><strong>主机位</strong> · Sony FX3 / A7S3 + 24-70mm · 中景为主</li>
+          <li><strong>辅机位 B-cam</strong> · A7C + 70-200mm · 特写 + 长焦眼神</li>
+          <li><strong>收音</strong> · 挑杆 + 罗德 NTG5 · 双机位双备份</li>
+          <li><strong>稳定器</strong> · RS 3 Pro · 一镜到底跟拍用</li>
+          <li><strong>三脚架</strong> · 备一个静态机位（QA 备份）</li>
+        </ul>
+      </div>
+      <div class="prep">
+        <h3>🚁 空镜 + 应急</h3>
+        <ul>
+          <li><strong>无人机</strong> · DJI Mavic 3 Pro · 起飞前确认 3850m 高原性能</li>
+          <li><strong>电池</strong> · 主机位 6 块 + 辅机位 4 块 · 高原耗电快</li>
+          <li><strong>反光板</strong> · 建议<em class="warn">不用</em>硬光 · 让自然光给层次</li>
+          <li><strong>应急包</strong> · 氧气罐 + 葡萄糖口服液 + 急救包</li>
+          <li><strong>备用</strong> · 充电宝 + 离线地图 + 现金（山无信号无商店）</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. 访谈技巧 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">08</span>
+      <h2>访谈技巧与避坑</h2>
+      <span class="sec-en">INTERVIEW TIPS</span>
+    </div>
+
+    <div class="prep-grid">
+      <div class="prep">
+        <h3>✅ 应该做</h3>
+        <ul>
+          <li><strong>从「你当时 30 岁那会儿」切入</strong>·代入感打开话匣子</li>
+          <li><strong>问具体年份 / 人物 / 画面</strong>·让答案带画面</li>
+          <li><strong>给 5-8 秒的沉默缓冲</strong>·不要急，停顿出金句</li>
+          <li><strong>准备三层追问</strong>（做了什么 / 怎么想 / 回到那天会改变吗）</li>
+          <li><strong>先看对方简历</strong>·避免问已说过的事</li>
+          <li><strong>纪录片感</strong>·不用大灯 / 不用反光板硬光</li>
+          <li><strong>拍摄前聊 10 分钟</strong>·建信任 · 让对方忘记镜头</li>
+        </ul>
+      </div>
+      <div class="prep">
+        <h3>⚠️ 避免做</h3>
+        <ul>
+          <li><em class="warn">不问大道理</em>（"您觉得新港精神是什么"——对方只能背词）</li>
+          <li><em class="warn">不让对方感觉在"被采访"</em>·从"当年那个我"切入</li>
+          <li><em class="warn">不打断沉默</em>·5-8 秒停顿里常常出真话</li>
+          <li><em class="warn">避免禁忌话题</em>·行业敏感事件 / 在任高管评价 / 人事变动</li>
+          <li><em class="warn">不要追求"漂亮话"</em>·真实感 > 完美感</li>
+          <li><em class="warn">不在疲劳 / 饥饿 / 高反时硬拍</em>·情绪影响答案</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. 后期剪辑地图 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">09</span>
+      <h2>后期剪辑地图</h2>
+      <span class="sec-en">POST MAP</span>
+    </div>
+
+    <table style="width:100%;border-collapse:collapse;font-size:14px;background:#fff;" class="kv">
+      <caption style="caption-side:top;text-align:left;padding:6px 14px;font-family:'Source Han Sans SC',sans-serif;font-weight:700;color:var(--ink);font-size:13px;letter-spacing:0.05em;">后期剪辑地图 · 主片结构 × 访谈模块对应</caption>
+      <thead>
+        <tr style="background:var(--paper-warm);">
+          <th style="padding:12px 14px;border:1px solid var(--line);text-align:left;font-family:'Source Han Sans SC',sans-serif;font-weight:700;width:18%;">主片结构</th>
+          <th style="padding:12px 14px;border:1px solid var(--line);text-align:left;font-family:'Source Han Sans SC',sans-serif;font-weight:700;">使用模块 / 问题</th>
+          <th style="padding:12px 14px;border:1px solid var(--line);text-align:left;font-family:'Source Han Sans SC',sans-serif;font-weight:700;">预期时长</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>开场 30 秒</td><td>Q1 + Q2 摘录 · 字幕「25 年 · 传承」</td><td>30s</td></tr>
+        <tr><td>故事主体</td><td>B 模块（Q3-Q5）+ C 模块（Q6-Q8）</td><td>3-4 min</td></tr>
+        <tr><td>视觉高潮</td><td>D 模块（Q9-Q10）· 实地空镜 + 口述交织</td><td>2 min</td></tr>
+        <tr><td>收束金句</td><td>Q11 + Q5 末尾 · 字幕叠加</td><td>30-45s</td></tr>
+        <tr><td>片尾彩蛋</td><td>未使用素材 · 拍摄花絮 · 老员工笑场</td><td>15s</td></tr>
+        <tr><td><strong>完整主片</strong></td><td colspan="2" style="text-align:center;color:var(--xingang-red);font-weight:700;">预估 6-8 分钟（抖音 / 视频号 3-5 分钟剪辑版另出）td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <div class="foot">
+    采访脚本 v1 · 数据依据：用户口述 + 北段方案 · 2026-09-15 · 需团队确认后定稿
+  </div>
+
+</main>
+
+</body>
+</html>
