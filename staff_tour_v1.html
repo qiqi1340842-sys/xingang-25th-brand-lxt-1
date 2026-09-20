@@ -1,0 +1,1364 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>员工线 · 自驾环路方案 v1</title>
+<style>
+  :root {
+    --xingang-red: #C8102E;
+    --xingang-red-deep: #8B0A1F;
+    --gold-heritage: #B8924A;
+    --ink: #1A1A1A;
+    --ink-soft: #4A4A4A;
+    --ink-mute: #8A8A8A;
+    --line: #E5E0D8;
+    --paper: #FAF7F2;
+    --paper-warm: #F2EDE4;
+    --snow: #F8F9FB;
+    --sky: #5B7E9F;
+    --sky-light: #E1E9F0;
+    --moss: #4A6741;
+    --moss-light: #DAE5D4;
+    --warn: #D97706;
+    --warn-bg: #FEF3C7;
+    --danger: #DC2626;
+    --danger-bg: #FEE2E2;
+    --shadow: 0 1px 3px rgba(26,26,26,0.06), 0 8px 24px rgba(26,26,26,0.04);
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Source Han Serif SC", "Noto Serif CJK SC", "Songti SC", "STSong", serif;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  body { padding: 0 0 80px; }
+  .sans { font-family: "Source Han Sans SC", "Noto Sans CJK SC", "PingFang SC", sans-serif; }
+
+  .hero {
+    background: linear-gradient(135deg, var(--xingang-red) 0%, var(--xingang-red-deep) 100%);
+    color: #fff;
+    padding: 56px 8% 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute; top: 0; right: 0; bottom: 0; width: 45%;
+    background: linear-gradient(135deg, transparent 0%, rgba(184,146,74,0.18) 100%);
+    pointer-events: none;
+  }
+  .hero-meta {
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    opacity: 0.85;
+    margin-bottom: 16px;
+  }
+  .hero h1 { font-size: 46px; font-weight: 700; margin: 0 0 12px; letter-spacing: 0.05em; }
+  .hero .sub { font-size: 18px; opacity: 0.92; margin: 0 0 4px; }
+  .hero .sub2 { font-size: 14px; opacity: 0.78; margin: 0; font-family: "Source Han Sans SC", sans-serif; }
+  .hero .tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+  .hero .tag {
+    display: inline-block;
+    padding: 4px 12px;
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 999px;
+    font-size: 12px;
+    font-family: "Source Han Sans SC", sans-serif;
+    letter-spacing: 0.05em;
+  }
+  .hero .tag.gold { background: var(--gold-heritage); border-color: var(--gold-heritage); }
+  .hero .tag.moss { background: var(--moss); border-color: var(--moss); }
+  .hero .tag.warn { background: var(--warn); border-color: var(--warn); }
+
+  main { max-width: 1280px; margin: 0 auto; padding: 0 5%; }
+
+  section { margin: 56px 0 0; }
+
+  .sec-head {
+    display: flex; align-items: baseline; gap: 16px;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 12px; margin-bottom: 28px;
+  }
+  .sec-num {
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 14px; font-weight: 700;
+    color: var(--xingang-red);
+    letter-spacing: 0.2em;
+  }
+  .sec-head h2 { font-size: 26px; font-weight: 700; margin: 0; letter-spacing: 0.05em; }
+  .sec-head .sec-en {
+    margin-left: auto;
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 12px; color: var(--ink-mute);
+    letter-spacing: 0.15em; text-transform: uppercase;
+  }
+
+  /* META GRID */
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .meta-grid .cell { background: #fff; padding: 16px 18px; }
+  .meta-grid .label {
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 11px; color: var(--ink-mute);
+    letter-spacing: 0.2em; text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .meta-grid .val { font-size: 14px; font-weight: 600; }
+  .meta-grid .val.red { color: var(--xingang-red); }
+  .meta-grid .val.gold { color: var(--gold-heritage); }
+  .meta-grid .val.moss { color: var(--moss); }
+  .meta-grid .val.sky { color: var(--sky); }
+
+  /* PRINCIPLE */
+  .principle {
+    background: var(--paper-warm);
+    border-left: 4px solid var(--xingang-red);
+    padding: 18px 24px; margin: 24px 0;
+    font-size: 14.5px; color: var(--ink-soft); line-height: 1.8;
+  }
+  .principle strong { color: var(--xingang-red); }
+
+  /* ROUTE SUMMARY */
+  .route-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .day-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    padding: 20px 22px;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--xingang-red);
+  }
+  .day-card.d2 { border-top-color: var(--gold-heritage); }
+  .day-card.d3 { border-top-color: var(--moss); }
+  .day-card .d-tag {
+    display: inline-block;
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--xingang-red);
+    letter-spacing: 0.2em;
+    margin-bottom: 8px;
+  }
+  .day-card.d2 .d-tag { color: var(--gold-heritage); }
+  .day-card.d3 .d-tag { color: var(--moss); }
+  .day-card h3 { margin: 0 0 12px; font-size: 18px; font-weight: 700; }
+  .day-card .route {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+  .day-card .stats {
+    display: flex; gap: 16px;
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 11px;
+    color: var(--ink-mute);
+    padding-top: 10px;
+    border-top: 1px dashed var(--line);
+  }
+  .day-card .stats strong { display: block; color: var(--ink); font-size: 14px; margin-top: 2px; }
+
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 32px; margin: 16px 0; }
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 8px; top: 6px; bottom: 6px;
+    width: 2px;
+    background: var(--line);
+  }
+  .tl-item { position: relative; padding: 8px 0 18px; }
+  .tl-item::before {
+    content: "";
+    position: absolute;
+    left: -28px; top: 12px;
+    width: 14px; height: 14px;
+    background: var(--xingang-red);
+    border: 2px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px var(--xingang-red);
+  }
+  .tl-item.gold::before { background: var(--gold-heritage); box-shadow: 0 0 0 1px var(--gold-heritage); }
+  .tl-item.moss::before { background: var(--moss); box-shadow: 0 0 0 1px var(--moss); }
+  .tl-item.sky::before { background: var(--sky); box-shadow: 0 0 0 1px var(--sky); }
+  .tl-time {
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 13px; font-weight: 700;
+    color: var(--xingang-red);
+    letter-spacing: 0.05em;
+    margin-bottom: 3px;
+  }
+  .tl-title { font-size: 15.5px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+  .tl-desc { font-size: 13.5px; color: var(--ink-soft); line-height: 1.65; margin-bottom: 6px; }
+  .tl-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+  .tl-tag {
+    display: inline-block;
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 10.5px;
+    padding: 2px 8px;
+    background: var(--snow);
+    border: 1px solid var(--line);
+    color: var(--ink-mute);
+    letter-spacing: 0.05em;
+    border-radius: 3px;
+  }
+  .tl-tag.t1 { background: var(--warn-bg); color: var(--warn); border-color: var(--warn); }
+  .tl-tag.t2 { background: var(--moss-light); color: var(--moss); border-color: var(--moss); }
+  .tl-tag.t3 { background: var(--sky-light); color: var(--sky); border-color: var(--sky); }
+
+  /* FLEET GRID */
+  .fleet-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .car-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    padding: 18px 22px;
+    box-shadow: var(--shadow);
+  }
+  .car-card h3 {
+    font-size: 16px; font-weight: 700; margin: 0 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed var(--line);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .car-card h3 .car-num {
+    background: var(--xingang-red);
+    color: #fff;
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 3px;
+  }
+  .car-card.b .car-num { background: var(--gold-heritage); }
+  .car-card.c .car-num { background: var(--moss); }
+  .car-card ul { list-style: none; padding: 0; margin: 0; }
+  .car-card li {
+    padding: 4px 0 4px 16px;
+    position: relative;
+    font-size: 13.5px; color: var(--ink-soft); line-height: 1.65;
+  }
+  .car-card li::before {
+    content: "·"; position: absolute; left: 4px; top: 4px;
+    color: var(--xingang-red); font-weight: 700;
+  }
+  .car-card li strong { color: var(--ink); }
+
+  /* RISK */
+  .risk-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .risk-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    padding: 18px 22px;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--warn);
+  }
+  .risk-card.high { border-left-color: var(--danger); }
+  .risk-card h3 {
+    font-size: 16px; font-weight: 700; margin: 0 0 10px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .risk-card .badge {
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 3px;
+    background: var(--warn-bg);
+    color: var(--warn);
+  }
+  .risk-card.high .badge { background: var(--danger-bg); color: var(--danger); }
+  .risk-card ul { list-style: none; padding: 0; margin: 0; }
+  .risk-card li {
+    padding: 5px 0 5px 18px;
+    position: relative;
+    font-size: 13.5px; color: var(--ink-soft); line-height: 1.65;
+    border-bottom: 1px dotted var(--line);
+  }
+  .risk-card li:last-child { border-bottom: none; }
+  .risk-card li::before {
+    content: ""; position: absolute;
+    left: 4px; top: 12px;
+    width: 5px; height: 5px;
+    background: var(--warn); border-radius: 50%;
+  }
+  .risk-card.high li::before { background: var(--danger); }
+  .risk-card li strong { color: var(--ink); }
+
+  /* INTERVIEW CARD (老员工特写) */
+  .iv-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    padding: 22px 26px;
+    margin-bottom: 14px;
+  }
+  .iv-num {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 12px;
+  }
+  .iv-num .num {
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 12px; font-weight: 700;
+    color: var(--gold-heritage);
+    letter-spacing: 0.15em;
+  }
+  .iv-num .who {
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 11px; color: var(--ink-mute);
+    padding: 2px 8px;
+    background: var(--snow);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+  }
+  .iv-num .when {
+    margin-left: auto;
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 11px; color: var(--ink-mute);
+  }
+  .iv-q {
+    font-size: 16px; font-weight: 700;
+    color: var(--ink);
+    margin: 0 0 12px; line-height: 1.6;
+  }
+  .iv-meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding-top: 12px;
+    border-top: 1px dotted var(--line);
+  }
+  .iv-meta .field {
+    background: var(--snow);
+    padding: 10px 14px;
+    border-radius: 3px;
+  }
+  .iv-meta .lbl {
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 10px;
+    color: var(--ink-mute);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .iv-meta .content {
+    font-size: 13px; color: var(--ink-soft); line-height: 1.6;
+  }
+  .iv-meta .content strong { color: var(--ink); }
+  .iv-meta .content em.tip {
+    color: var(--xingang-red); font-style: normal; font-weight: 600;
+  }
+
+  /* ACTIVITY */
+  .act-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    padding: 18px 22px;
+    margin-bottom: 12px;
+  }
+  .act-time {
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 12px; font-weight: 700;
+    color: var(--xingang-red);
+    letter-spacing: 0.05em;
+    padding-top: 3px;
+  }
+  .act-body h3 {
+    margin: 0 0 6px;
+    font-size: 15.5px; font-weight: 700;
+  }
+  .act-body p {
+    margin: 0 0 8px;
+    font-size: 13.5px; color: var(--ink-soft); line-height: 1.65;
+  }
+  .act-body .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .act-body .tag-tiny {
+    display: inline-block;
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 10.5px;
+    padding: 2px 8px;
+    background: var(--snow);
+    border: 1px solid var(--line);
+    color: var(--ink-mute);
+    border-radius: 3px;
+  }
+  .act-body .tag-tiny.t1 { background: var(--warn-bg); color: var(--warn); border-color: var(--warn); }
+  .act-body .tag-tiny.t2 { background: var(--moss-light); color: var(--moss); border-color: var(--moss); }
+  .act-body .tag-tiny.t3 { background: var(--sky-light); color: var(--sky); border-color: var(--sky); }
+
+  /* THEME MATRIX */
+  table.theme-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    background: #fff;
+    margin-top: 8px;
+  }
+  .theme-table caption {
+    caption-side: top; text-align: left;
+    padding: 6px 0;
+    font-family: "Source Han Sans SC", sans-serif;
+    font-weight: 700; color: var(--ink);
+    font-size: 13px; letter-spacing: 0.05em;
+  }
+  .theme-table th, .theme-table td {
+    padding: 14px;
+    border: 1px solid var(--line);
+    vertical-align: top;
+    text-align: left;
+  }
+  .theme-table th {
+    background: var(--paper-warm);
+    font-family: "Source Han Sans SC", sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .theme-table .theme-1 { color: var(--warn); font-weight: 700; }
+  .theme-table .theme-2 { color: var(--moss); font-weight: 700; }
+  .theme-table .theme-3 { color: var(--sky); font-weight: 700; }
+  .theme-table td strong { color: var(--ink); }
+
+  /* FOOTNOTE */
+  .foot {
+    text-align: center; color: var(--ink-mute);
+    font-size: 12px; margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    font-family: "Source Han Sans SC", sans-serif;
+    letter-spacing: 0.1em;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 960px) {
+    .hero { padding: 40px 6% 32px; }
+    .hero h1 { font-size: 32px; }
+    main { padding: 0 5%; }
+    .meta-grid { grid-template-columns: repeat(2, 1fr); }
+    .route-grid { grid-template-columns: 1fr; }
+    .fleet-grid { grid-template-columns: 1fr; }
+    .risk-grid { grid-template-columns: 1fr; }
+    .iv-meta { grid-template-columns: 1fr; }
+  }
+
+  @media print {
+    body { background: #fff; padding: 0; }
+    .hero { background: var(--xingang-red) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .day-card, .iv-card, .act-card, .car-card, .risk-card { box-shadow: none; page-break-inside: avoid; }
+    section { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-meta">STAFF LINE · SELF-DRIVE LOOP · 9.22-24 · v1</div>
+  <h1>员工线 · 自驾环路方案</h1>
+  <p class="sub">3-Day Counterclockwise Loop · 20 People · 5 Vehicles · Heritage + Work + Life</p>
+  <p class="sub2">For 25th Anniversary Brand Upgrade · FILM 03 · Paired with 4 Veteran Solo Shots &amp; Group Activities</p>
+  <div class="tag-row">
+    <span class="tag">9.22-24 · 3 Days</span>
+    <span class="tag gold">Counterclockwise</span>
+    <span class="tag moss">20 People / 5 Vehicles</span>
+    <span class="tag warn">3-Theme Parallel</span>
+  </div>
+</header>
+
+<main>
+
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">00</span>
+      <h2>Overview</h2>
+      <span class="sec-en">OVERVIEW</span>
+    </div>
+
+    <div class="meta-grid">
+      <div class="cell">
+        <div class="label">Dates</div>
+        <div class="val red">9.22-24 · 3 Days</div>
+      </div>
+      <div class="cell">
+        <div class="label">Direction</div>
+        <div class="val gold">Counterclockwise</div>
+      </div>
+      <div class="cell">
+        <div class="label">Headcount</div>
+        <div class="val moss">20 · 4+ veterans + ? new</div>
+      </div>
+      <div class="cell">
+        <div class="label">Fleet</div>
+        <div class="val sky">5 incl. shared camera car</div>
+      </div>
+      <div class="cell">
+        <div class="label">Total</div>
+        <div class="val">~600km · Max 5922m</div>
+      </div>
+    </div>
+
+    <div class="principle">
+      <strong>Core Principles</strong>: New + veteran staff travel together + Self-drive camera car + Group activities + 4 veteran solo interviews embedded.<br>
+      The three themes <strong>Heritage / Work / Life</strong> run through the entire journey — they aren't split by day but woven into each scene.<br>
+      Filming prioritizes "<strong>on the road</strong>" over fixed-position interviews.
+    </div>
+
+    <div class="route-grid">
+      <div class="day-card">
+        <span class="d-tag">DAY 1 · 9.22 TUE</span>
+        <h3>破冰 · 团队建立 / Ice-breaking</h3>
+        <div class="route">Chengdu → Yingxiu → Wenchuan → Taoping Qiang Village → Lixian → Potou → Bipenggou → Liangtaigou → <strong>Daerpu Camp (overnight)</strong></div>
+        <div class="stats">
+          <div>Distance<strong>~290km</strong></div>
+          <div>Elevation<strong>500→5922→3850</strong></div>
+          <div>Theme<strong>Ice-break</strong></div>
+        </div>
+      </div>
+      <div class="day-card d2">
+        <span class="d-tag">DAY 2 · 9.23 WED</span>
+        <h3>核心叙事 · 高潮 / Core Narrative</h3>
+        <div class="route">Daerpu → Xianghua Village → Jiesi Glacier → Xiaojin → Wori → Dawei → Maobiliang → <strong>Siguniangshan (overnight)</strong></div>
+        <div class="stats">
+          <div>Distance<strong>~210km</strong></div>
+          <div>Elevation<strong>3850→4481→3840</strong></div>
+          <div>Theme<strong>Climax</strong></div>
+        </div>
+      </div>
+      <div class="day-card d3">
+        <span class="d-tag">DAY 3 · 9.24 THU</span>
+        <h3>收束 · 回归 / Return</h3>
+        <div class="route">Siguniangshan → Maobiliang → Dengshenggou → Balangshan → Wolong → Shenshuping → Dujiangyan → <strong>Chengdu</strong></div>
+        <div class="stats">
+          <div>Distance<strong>~210km</strong></div>
+          <div>Elevation<strong>3840→6250→500</strong></div>
+          <div>Theme<strong>Closing</strong></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <h2>Day 1 · Ice-breaking + Team Building</h2>
+      <span class="sec-en">DAY 1 · BREAK-IN</span>
+    </div>
+
+    <div class="principle">
+      <strong>Day 1 Keywords</strong>: Meet · Probe · Find the "fleet feel"<br>
+      First day, all still reserved — need to design "ice-breakers". Focus isn't what to film but letting veterans and new staff interact naturally.
+    </div>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-time">07:30 · Chengdu gather</div>
+        <div class="tl-title">Xinmaolu 8 · Pre-departure assembly</div>
+        <div class="tl-desc">5 vehicles park by number · Free seating mix · Group photo 10min</div>
+        <div class="tl-tags">
+          <span class="tl-tag t2">Heritage</span>
+          <span class="tl-tag t3">Life</span>
+        </div>
+      </div>
+
+      <div class="tl-item gold">
+        <div class="tl-time">08:30 · Highway departure</div>
+        <div class="tl-title">Chengdu-Guan → Du-Wen highway · First leg</div>
+        <div class="tl-desc">Car A leads · Camera car co-pilot captures fleet motion (drone + interior dual-cam)<br>Each car numbered + veteran/new name card</div>
+        <div class="tl-tags">
+          <span class="tl-tag t3">Life</span>
+          <span class="tl-tag t2">Heritage</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">11:00 · Wenchuan service area · Stop ①</div>
+        <div class="tl-title">Ice-breaker ① · Veteran opening</div>
+        <div class="tl-desc">Car A's most senior veteran · 3min opening intro ("Who I am / What I want from this trip")<br>Entire fleet listens via walkie-talkie · Boom mic on Car A</div>
+        <div class="tl-tags">
+          <span class="tl-tag t2">Heritage</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">12:30 · Taoping Qiang · Lunch</div>
+        <div class="tl-title">Qiang lunch + heritage touchpoint</div>
+        <div class="tl-desc">Group table · Veteran shares "first time I brought a client on this road" · Capture audience reactions<br>No formal interview · Focus on listening reactions</div>
+        <div class="tl-tags">
+          <span class="tl-tag t2">Heritage</span>
+          <span class="tl-tag t3">Life</span>
+          <span class="tl-tag t1">Work</span>
+        </div>
+      </div>
+
+      <div class="tl-item gold">
+        <div class="tl-time">14:30 · Bipenggou/Liangtaigou · Transit</div>
+        <div class="tl-title">Bipenggou quick pass + snow-mountain group photo</div>
+        <div class="tl-desc">"Drive-through" mode · Stop once at Yueliangwan/Yanziyaowo (20min group drone + snow-mountain photo)<br>Don't enter deep Niuxingou · Stay ≤2h · Reserve energy for Daerpu climb</div>
+        <div class="tl-tags">
+          <span class="tl-tag t3">Life</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">17:00 · Daerpu Camp · Arrival</div>
+        <div class="tl-title">Camp assignment · Bonfire + stargazing</div>
+        <div class="tl-desc">Tent/cabin assignment (pre-booked) · Light dinner · 19:30 bonfire + group singing<br>20:30 stargazing (low light pollution · Milky Way possible) · Veteran tells "first story on the road"</div>
+        <div class="tl-tags">
+          <span class="tl-tag t2">Heritage</span>
+          <span class="tl-tag t3">Life</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="principle" style="border-left-color: var(--warn); background: var(--warn-bg);">
+      <strong>⚠️ Day 1 Risk</strong>: Extreme elevation swing (500 → 5922 → 3850) · High altitude sickness risk<br>
+      Mitigation: ① Oxygen + glucose in every car ② Bipenggou stay ≤2h ③ Daerpu camp mandates early rest
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <h2>Day 2 · Core Narrative · Climax</h2>
+      <span class="sec-en">DAY 2 · CORE</span>
+    </div>
+
+    <div class="principle">
+      <strong>Day 2 Keywords</strong>: Depth · Resonance · "Heritage + Work" themes climax<br>
+      4 veteran solo shots concentrated in 2 viewpoints today. Group activities pick the most visually striking — alpine meadow picnic + frisbee.
+    </div>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-time">07:00 · Daerpu sunrise</div>
+        <div class="tl-title">Snow-mountain sunrise · Group shot</div>
+        <div class="tl-desc">6:30 gather uphill 10min · Snow-mountain glow + group silhouette · Drone 1 pass<br>08:00 breakfast</div>
+        <div class="tl-tags">
+          <span class="tl-tag t3">Life</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">08:30 · Break camp</div>
+        <div class="tl-title">Xianghua Village leg · Alpine meadow filming</div>
+        <div class="tl-desc">Leave Daerpu · Meadows starting to yellow · Camera car follows fleet · Co-pilot captures in-car veteran dialogue</div>
+        <div class="tl-tags">
+          <span class="tl-tag t2">Heritage</span>
+          <span class="tl-tag t1">Work</span>
+        </div>
+      </div>
+
+      <div class="tl-item gold">
+        <div class="tl-time">10:30 · Jiesi Glacier viewpoint · Core shot ①</div>
+        <div class="tl-title">Veteran shots #1 + #2 · Group activity</div>
+        <div class="tl-desc">Park 1h · Content:<br>
+          · 10min group drone (snow mountain + fleet + meadow)<br>
+          · 20min <strong>Veteran #1 solo</strong> (5min interview + 3-layer follow-up ready)<br>
+          · 20min <strong>Veteran #2 solo</strong> (same structure)<br>
+          · 10min group meadow picnic / frisbee interaction</div>
+        <div class="tl-tags">
+          <span class="tl-tag t2">Heritage</span>
+          <span class="tl-tag t3">Life</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">12:30 · Xiaojin town · Lunch</div>
+        <div class="tl-title">Pass-through supply · Work scene embedded</div>
+        <div class="tl-desc">Capture real "fleet entering Xiaojin, refueling, rest" · Veteran shares 1 client story (in-car voiceover + video)</div>
+        <div class="tl-tags">
+          <span class="tl-tag t1">Work</span>
+          <span class="tl-tag t3">Life</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">14:30 · Dawei/Wori leg · Red education</div>
+        <div class="tl-title">Dawei meeting bridge (optional) · Heritage depth</div>
+        <div class="tl-desc">Dawei is the Red Army meeting site · Veteran ties "heritage" theme here (decide on 15min stop per timing)</div>
+        <div class="tl-tags">
+          <span class="tl-tag t2">Heritage</span>
+        </div>
+      </div>
+
+      <div class="tl-item gold">
+        <div class="tl-time">16:30 · Maobiliang viewpoint · Core shot ②</div>
+        <div class="tl-title">Veteran shots #3 + #4 · Eve of closing</div>
+        <div class="tl-desc">Maobiliang viewpoint · 4481m · Siguniangshan panorama<br>
+          · 10min group photo (sunset + snow mountain)<br>
+          · 20min <strong>Veteran #3 solo</strong><br>
+          · 20min <strong>Veteran #4 solo</strong><br>
+          · 20min free filming (group games / solo silhouette / closing-line preview)</div>
+        <div class="tl-tags">
+          <span class="tl-tag t2">Heritage</span>
+          <span class="tl-tag t3">Life</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">18:30 · Siguniangshan town · Check-in</div>
+        <div class="tl-title">Dinner + Karaoke + Free exchange</div>
+        <div class="tl-desc">Tibetan-style dinner · Veterans voluntarily pick songs / share "things to say on the road"<br>· No pressure · Camera car captures natural interaction</div>
+        <div class="tl-tags">
+          <span class="tl-tag t3">Life</span>
+          <span class="tl-tag t2">Heritage</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="principle" style="border-left-color: var(--warn); background: var(--warn-bg);">
+      <strong>⚠️ Day 2 Filming Focus</strong>: 4 veteran solo shots at Jiesi Glacier + Maobiliang<br>
+      Reserve 1h per viewpoint · 20min per solo shot · 3-layer follow-ups ready but unsaid · Avoid "interview vibe"
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">03</span>
+      <h2>Day 3 · Closing · Return</h2>
+      <span class="sec-en">DAY 3 · RETURN</span>
+    </div>
+
+    <div class="principle">
+      <strong>Day 3 Keywords</strong>: Relax · Recall · Turn 3 days into one sentence<br>
+      Filming shifts from "intense" to "loose" — let group interact freely, capture natural summary moments. **No store return scheduled** — keep "return" in the heart, not at a specific place.
+    </div>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-time">08:00 · Siguniangshan · Last look</div>
+        <div class="tl-title">Morning mist + snow mountain · Quiet 15min</div>
+        <div class="tl-desc">No organized activity · Let early risers go up · Capture "things to say" free footage<br>Check out after breakfast</div>
+        <div class="tl-tags">
+          <span class="tl-tag t3">Life</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">09:30 · Dengshenggou · Light hike</div>
+        <div class="tl-title">Dengshenggou 1h hike · Veterans lead new</div>
+        <div class="tl-desc">Dengshenggou is panda habitat · Forest trail · 4 veterans each lead 4-5 new staff in groups<br>· Camera car captures "veteran-leads-new" natural dialogue (off-script)</div>
+        <div class="tl-tags">
+          <span class="tl-tag t2">Heritage</span>
+          <span class="tl-tag t3">Life</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">11:30 · Balangshan pass · 4523m photo stop</div>
+        <div class="tl-title">Pass memorial · Elevation extreme group shot</div>
+        <div class="tl-desc">Stop 15min · Group photo + individual drone · Don't linger (pass cold + windy)<br>· Camera car sticks with group</div>
+        <div class="tl-tags">
+          <span class="tl-tag t3">Life</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">13:00 · Wolong · Lunch + Shenshuping</div>
+        <div class="tl-title">Shenshuping panda base · Group relaxation</div>
+        <div class="tl-desc">Panda base 1h · Group natural state · No forced interview<br>· Focus on "being healed by pandas" real reactions</div>
+        <div class="tl-tags">
+          <span class="tl-tag t3">Life</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">15:30 · Du-Wen highway · Return</div>
+        <div class="tl-title">In-car summary · Closing-line preview</div>
+        <div class="tl-desc">Return 3h · Car A + camera car dedicated to "closing lines":<br>· Each veteran 1 line: "what I most want to say from this trip"<br>· Each new staff 1 line: "what I took in"<br>· Group chanting one sentence (prep beforehand / live feel)</div>
+        <div class="tl-tags">
+          <span class="tl-tag t2">Heritage</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">18:30 · Chengdu · Disband</div>
+        <div class="tl-title">Near Xinmaolu · Fleet disbands</div>
+        <div class="tl-desc">No store visit · Disband near departure point · 5min group photo · Everyone home<br>· Camera car captures natural "parting" moments</div>
+        <div class="tl-tags">
+          <span class="tl-tag t3">Life</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="principle" style="border-left-color: var(--moss); background: var(--moss-light);">
+      <strong>📌 Day 3 Key</strong>: 3h return drive is the "closing lines" golden window<br>
+      No store visit · Keep "return" on the road · Let everyone naturally voice "what this trip meant"
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">04</span>
+      <h2>3-Theme × 3-Day Matrix</h2>
+      <span class="sec-en">THEME MATRIX</span>
+    </div>
+
+    <table class="theme-table">
+      <caption>Heritage / Work / Life weave by location — not split by day</caption>
+      <thead>
+        <tr>
+          <th style="width:18%;">Theme</th>
+          <th>Day 1 Ice-break</th>
+          <th>Day 2 Climax</th>
+          <th>Day 3 Closing</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="theme-1">Heritage 50%</td>
+          <td>· Car-A veteran voiceover opening<br>· Taoping veteran "first client on this road"<br>· Daerpu starry-sky "first story"</td>
+          <td>· <strong>4 veteran solo shots</strong> (Jiesi 2 + Maobiliang 2)<br>· Dengshenggou "veteran-leads-new" group hike<br>· Veteran client stories</td>
+          <td>· Closing lines (veteran 1 line)<br>· Veterans chant one sentence<br>· Natural reflection moments</td>
+        </tr>
+        <tr>
+          <td class="theme-2">Work 30%</td>
+          <td>· Refueling / service-area rest on the road</td>
+          <td>· Xiaojin town refuel/supply filming<br>· Veteran "calls received on the road"<br>· Dawei red education tie-in</td>
+          <td>· Service area / Wolong natural acts<br>· Veteran helps new staff solve small issues</td>
+        </tr>
+        <tr>
+          <td class="theme-3">Life 20%</td>
+          <td>· Taoping Qiang lunch<br>· Daerpu bonfire + stargazing<br>· Snow-mountain photo</td>
+          <td>· Sunrise glow<br>· Jiesi meadow picnic / frisbee<br>· Maobiliang group games<br>· Tibetan dinner + karaoke</td>
+          <td>· Dengshenggou light hike<br>· Balangshan pass group photo<br>· Shenshuping pandas<br>· In-car karaoke</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">05</span>
+      <h2>Fleet Plan · 5 Vehicles</h2>
+      <span class="sec-en">FLEET PLAN</span>
+    </div>
+
+    <div class="principle">
+      <strong>Fleet Principle</strong>: 5-vehicle fleet · 4 self-drive (20 ppl / 4 = 5 per car) + 1 shared camera car<br>
+      · Number + name card per car · Driver + passenger roles explicit<br>
+      · Camera car not fixed in formation · Switch flexibly between A/B/C<br>
+      · Mountain road fleet length ≤400m · Car-to-car distance ≥80m
+    </div>
+
+    <div class="fleet-grid">
+      <div class="car-card">
+        <h3><span class="car-num">CAR A</span> Lead + Veterans</h3>
+        <ul>
+          <li><strong>5 ppl</strong>: Driver + 4 most senior veterans</li>
+          <li>Head of fleet · Controls pace</li>
+          <li>Walkie-talkie main channel · All-fleet comms</li>
+          <li>Group photo front position</li>
+          <li>Day 1 opening voiceover in this car</li>
+          <li><strong>Suggested model</strong>: BYD Tang DM-p 7-seat · Good front visibility · Veteran comfort</li>
+        </ul>
+      </div>
+
+      <div class="car-card b">
+        <h3><span class="car-num">CAR B</span> Middle + New staff focus</h3>
+        <ul>
+          <li><strong>5 ppl</strong>: Driver + 5 new staff</li>
+          <li>Middle position · Camera car priority follow</li>
+          <li>New staff + 1 veteran pairing (mentor-apprentice)</li>
+          <li>Daytime camera car co-pilot · Telephoto in-car dialogue</li>
+          <li><strong>Suggested model</strong>: BYD Song PLUS DM-i 7-seat</li>
+        </ul>
+      </div>
+
+      <div class="car-card c">
+        <h3><span class="car-num">CAR C</span> New staff mix</h3>
+        <ul>
+          <li><strong>5 ppl</strong>: Driver + 5 new staff</li>
+          <li>Middle position · Camera car secondary follow</li>
+          <li>1 veteran pairing · "First time at work" stories</li>
+          <li><strong>Suggested model</strong>: BYD Song PLUS DM-i 7-seat</li>
+        </ul>
+      </div>
+
+      <div class="car-card">
+        <h3><span class="car-num">CAR D</span> Rear guard + Veteran + Photo assistant</h3>
+        <ul>
+          <li><strong>5 ppl</strong>: Driver + 4 veterans + 1 photo assistant (backup cam / battery / spare)</li>
+          <li>Rear guard · Camera car priority follow</li>
+          <li>Assistant covers when camera car offline</li>
+          <li>Higher veteran ratio · Suitable for in-car interviews</li>
+          <li><strong>Suggested model</strong>: BYD Tang DM-p 7-seat · Strong capacity</li>
+        </ul>
+      </div>
+
+      <div class="car-card b" style="grid-column: span 2;">
+        <h3><span class="car-num">🚁 CAR E · Camera car (shared)</span></h3>
+        <ul>
+          <li><strong>3 ppl</strong>: Driver + main photographer + sound recordist + drone operator (when flying co-pilot)</li>
+          <li><strong>Not fixed in formation</strong> · Flexibly switches A/B/C/D</li>
+          <li>Gear: Sony FX3 + 24-70mm + 70-200mm + Rode NTG5 + DJI Mavic 3 Pro + boom + first-aid kit</li>
+          <li>Daytime mainly follows B/C cars (capture mentor-apprentice) · Key nodes follow A car</li>
+          <li>Closing lines (Day 3 return) dedicated to A car 3h</li>
+          <li><strong>Suggested model</strong>: SUV suffices · Equipment loading · No 7-seat needed</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="principle">
+      <strong>Communications</strong>:<br>
+      · 5 walkie-talkies (one per car + lead spare) · Main channel all-fleet · Backup channel lead only<br>
+      · WeChat group · Pre-mark no-signal zones (Potou→Bipenggou→Liangtaigou + Dengshenggou)<br>
+      · "Xingang Self-Drive" sticker + number per car · High-altitude external emergency kit
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">06</span>
+      <h2>4 Veteran Solo Shots · Adapted Plan</h2>
+      <span class="sec-en">INTERVIEW PLAN</span>
+    </div>
+
+    <div class="principle">
+      <strong>Adaptation Note</strong>: Based on interview script v1's 11 questions, <strong>core questions retained</strong> but <strong>setting shifts from "fixed interview" to "on the road"</strong>.<br>
+      · Co-pilot / rear seat / service area / viewpoint · Chat while driving<br>
+      · Not chasing "golden lines", chasing "natural on-road expression"<br>
+      · All 4 shots on Day 2 · 2 at Jiesi + 2 at Maobiliang
+    </div>
+
+    <div class="iv-card">
+      <div class="iv-num">
+        <span class="num">SHOT #1</span>
+        <span class="who">Senior Veteran A · Car A rear seat</span>
+        <span class="when">Day 2 · 10:30 · Jiesi Glacier viewpoint</span>
+      </div>
+      <p class="iv-q">"Looking at this glacier, which moment at Xingang does it bring to mind?"</p>
+      <div class="iv-meta">
+        <div class="field">
+          <div class="lbl">Setting</div>
+          <div class="content">Jiesi Glacier viewpoint · Veteran faces snow mountain · <strong>telephoto backlight</strong> · Natural light</div>
+        </div>
+        <div class="field">
+          <div class="lbl">3-Layer Follow-up</div>
+          <div class="content">L1 What were you doing then?<br>L2 What were you thinking?<br>L3 Looking back, does that moment matter?</div>
+        </div>
+        <div class="field">
+          <div class="lbl">Notes</div>
+          <div class="content"><em class="tip">No reflector</em> · 5-8s silence buffer · Don't interrupt golden lines</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="iv-card">
+      <div class="iv-num">
+        <span class="num">SHOT #2</span>
+        <span class="who">Senior Veteran B · Car B co-pilot</span>
+        <span class="when">Day 2 · 11:00 · Jiesi Glacier viewpoint</span>
+      </div>
+      <p class="iv-q">"On this trip, what do you want to pass on to these new colleagues?"</p>
+      <div class="iv-meta">
+        <div class="field">
+          <div class="lbl">Setting</div>
+          <div class="content">Jiesi Glacier viewpoint · <strong>sitting on meadow</strong> · Mid shot · Relaxed</div>
+        </div>
+        <div class="field">
+          <div class="lbl">3-Layer Follow-up</div>
+          <div class="content">L1 What kind of things?<br>L2 How to pass to a specific person?<br>L3 When did you feel "it landed"?</div>
+        </div>
+        <div class="field">
+          <div class="lbl">Notes</div>
+          <div class="content"><em class="tip">Q1+Q3 combined</em> · Let them naturally think of specific people</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="iv-card">
+      <div class="iv-num">
+        <span class="num">SHOT #3</span>
+        <span class="who">Senior Veteran C · Car C rear seat</span>
+        <span class="when">Day 2 · 16:30 · Maobiliang viewpoint 4481m</span>
+      </div>
+      <p class="iv-q">"On this drive, what did you see, what came to mind?"</p>
+      <div class="iv-meta">
+        <div class="field">
+          <div class="lbl">Setting</div>
+          <div class="content">Maobiliang viewpoint · <strong>facing Siguniangshan</strong> · Slow push close-up · Sunset side-light</div>
+        </div>
+        <div class="field">
+          <div class="lbl">3-Layer Follow-up</div>
+          <div class="content">L1 Which image struck you most?<br>L2 At that moment who came to mind?<br>L3 Who would you want to share this with?</div>
+        </div>
+        <div class="field">
+          <div class="lbl">Notes</div>
+          <div class="content"><em class="tip">Q6 (on-road scene) adapted</em> · Fits "on the road" theme</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="iv-card">
+      <div class="iv-num">
+        <span class="num">SHOT #4</span>
+        <span class="who">Senior Veteran D · Car D co-pilot</span>
+        <span class="when">Day 2 · 17:00 · Maobiliang viewpoint 4481m</span>
+      </div>
+      <p class="iv-q">"If you could say one sentence to Xingang's next 25 years, what would it be?"</p>
+      <div class="iv-meta">
+        <div class="field">
+          <div class="lbl">Setting</div>
+          <div class="content">Maobiliang viewpoint · <strong>sunset silhouette</strong> · Fade to black + subtitle overlay<br>· Purest shot · Undisturbed</div>
+        </div>
+        <div class="field">
+          <div class="lbl">3-Layer Follow-up</div>
+          <div class="content">L1 Which word in this line matters most?<br>L2 Who would hear it first?<br>L3 Will you remember this line yourself?</div>
+        </div>
+        <div class="field">
+          <div class="lbl">Notes</div>
+          <div class="content"><em class="tip">Retain v1 Q11</em> · Closing line · Short and punchy</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="principle">
+      <strong>Total interview time</strong>:<br>
+      · 4 shots × 20min = <strong>80min</strong> (v1 was 30-45min single person)<br>
+      · Usable material ~30-40min (minus chitchat / thinking time)<br>
+      · All on Day 2 · Veterans may tire · Recommend <strong>NOT schedule after dinner</strong>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">07</span>
+      <h2>Group Activity Design</h2>
+      <span class="sec-en">GROUP ACTIVITIES</span>
+    </div>
+
+    <div class="act-card">
+      <div class="act-time">Day 1<br>19:30</div>
+      <div class="act-body">
+        <h3>🔥 Daerpu Camp Bonfire + Stargazing</h3>
+        <p>Veteran shares "first story" · Group around fire · Natural interaction · Star photography (low light pollution)</p>
+        <div class="tags">
+          <span class="tag-tiny t2">Heritage</span>
+          <span class="tag-tiny t3">Life</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="act-card">
+      <div class="act-time">Day 2<br>10:50</div>
+      <div class="act-body">
+        <h3>🏔️ Jiesi Glacier Meadow Picnic + Frisbee</h3>
+        <p>Snow-mountain backdrop · Group natural interaction · Veteran-leads-new free grouping · Capture "natural moments"</p>
+        <div class="tags">
+          <span class="tag-tiny t2">Heritage</span>
+          <span class="tag-tiny t3">Life</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="act-card">
+      <div class="act-time">Day 2<br>17:00</div>
+      <div class="act-body">
+        <h3>📸 Maobiliang Sunset Group Photo + Free Time</h3>
+        <p>Sunset + Siguniangshan panorama · Group photo + individual drone · Free time 20min</p>
+        <div class="tags">
+          <span class="tag-tiny t3">Life</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="act-card">
+      <div class="act-time">Day 2<br>20:00</div>
+      <div class="act-body">
+        <h3>🎤 Tibetan Dinner + Karaoke</h3>
+        <p>Veterans voluntarily pick songs · Group chorus · Capture "actively speaking" real moments · No forced interview</p>
+        <div class="tags">
+          <span class="tag-tiny t2">Heritage</span>
+          <span class="tag-tiny t3">Life</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="act-card">
+      <div class="act-time">Day 3<br>15:30</div>
+      <div class="act-body">
+        <h3>🚗 Return Drive Karaoke + Closing Lines</h3>
+        <p>Return 3h · Each veteran 1 line "what I most want to say" · Each new staff 1 line "what I took in" · Group chant</p>
+        <div class="tags">
+          <span class="tag-tiny t2">Heritage</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">08</span>
+      <h2>Equipment + Logistics + Emergency</h2>
+      <span class="sec-en">EQUIPMENT</span>
+    </div>
+
+    <div class="fleet-grid">
+      <div class="car-card">
+        <h3>🎥 CAR E · Camera car load</h3>
+        <ul>
+          <li>Sony FX3 + 24-70mm f2.8 (main mid-shot)</li>
+          <li>Sony A7C + 70-200mm f2.8 (telephoto / eyes)</li>
+          <li>Rode NTG5 + boom (dual backup)</li>
+          <li>DJI Mavic 3 Pro (high-altitude version + spare props)</li>
+          <li>RS 3 Pro stabilizer (one-shot)</li>
+          <li>Tripod + reflector (low-light use)</li>
+          <li>8+8 batteries · High altitude drains fast</li>
+          <li>4 hard drives (backup each night)</li>
+        </ul>
+      </div>
+
+      <div class="car-card">
+        <h3>🚐 Each self-drive car (×4)</h3>
+        <ul>
+          <li>Emergency kit: 2 oxygen cans + 5 glucose + first-aid</li>
+          <li>Backup fuel can ×1 (20L) · High altitude fuel consumption high</li>
+          <li>Power bank ×1 (20000mAh) · No service-area charging in mountains</li>
+          <li>Offline map download (Amap / Baidu)</li>
+          <li>Cash 1000 RMB · No signal / no shop in mountains</li>
+          <li>Warm clothes · Late Sept mountain 5-10℃</li>
+          <li>Raincoat + headlamp · Rain protection + emergency light</li>
+        </ul>
+      </div>
+
+      <div class="car-card">
+        <h3>📱 Communications + Coordination</h3>
+        <ul>
+          <li>6 walkie-talkies (one per car + lead spare)</li>
+          <li>Main + backup channel (mountain EM environment complex)</li>
+          <li>Fleet WeChat group · Daily 21:00 review</li>
+          <li>Lead coordinator 1 (Car A + 1 senior staff)</li>
+          <li>Rear lead 1 (Car D + 1 veteran)</li>
+          <li>Camera car reports position to lead coordinator anytime</li>
+        </ul>
+      </div>
+
+      <div class="car-card">
+        <h3>🏥 Emergency + Safety</h3>
+        <ul>
+          <li>Common meds: cold / headache / stomach / band-aid</li>
+          <li>Altitude meds: Rhodiola (start 3 days before) / Gaoyuan'an</li>
+          <li>10 oxygen cans (2 per car)</li>
+          <li>20 glucose oral liquid (4 per car)</li>
+          <li>Emergency contacts (medical / rescue / 4S)</li>
+          <li>Each car: fleet number + emergency contact sticker</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">09</span>
+      <h2>Risk Mitigation</h2>
+      <span class="sec-en">RISK PLAN</span>
+    </div>
+
+    <div class="risk-grid">
+      <div class="risk-card high">
+        <h3>🏔️ Altitude Sickness <span class="badge">HIGH</span></h3>
+        <ul>
+          <li><strong>Day 1 swing large</strong>: 500→5922→3850, highest risk on first day</li>
+          <li>Rhodiola <strong>mandatory 3 days pre-departure</strong>, everyone</li>
+          <li>Each car: 2 oxygen + 4 glucose</li>
+          <li>Bipenggou <strong>don't enter deep Niuxingou</strong> · Stay ≤2h</li>
+          <li>Symptoms → immediately descend to Lixian (1888m)</li>
+          <li>Day 2 AM check · Severe cases skip Maobiliang</li>
+        </ul>
+      </div>
+
+      <div class="risk-card high">
+        <h3>🌧️ Weather <span class="badge">HIGH</span></h3>
+        <ul>
+          <li>Late Sept western Sichuan rainy · Check forecast 7 days before</li>
+          <li>Rainy day: prioritize in-car + camp · Less outdoor</li>
+          <li>Potou→Bipenggou landslide risk after rain</li>
+          <li>Dengshenggou + Balangshan pass high rain-fog probability</li>
+          <li>Raincoat + lens rain cover ×5 (1 per car)</li>
+        </ul>
+      </div>
+
+      <div class="risk-card">
+        <h3>🚗 Road Conditions <span class="badge">MED</span></h3>
+        <ul>
+          <li>Lixiao Road (Potou→Bipenggou→Liangtaigou→Daerpu) sharp turns + single-lane yield sections</li>
+          <li>Dengshenggou to Balangshan pass <strong>rockfall risk</strong></li>
+          <li>Offline maps per car · Mark signal-loss zones</li>
+          <li>Fleet length ≤400m · Car distance ≥80m</li>
+          <li>Drivers must study route pre-departure · Unfamiliar drivers excluded</li>
+        </ul>
+      </div>
+
+      <div class="risk-card">
+        <h3>📵 Communication <span class="badge">MED</span></h3>
+        <ul>
+          <li>Potou→Bipenggou→Liangtaigou + Dengshenggou <strong>no cell signal</strong></li>
+          <li>Walkie-talkie main channel all-fleet · Backup channel lead only</li>
+          <li>Pre-mark no-signal zones · Agree emergency code</li>
+          <li>Each car has emergency contact sticker inside</li>
+          <li>Rescue / medical / 4S phone numbers pre-saved in lead coordinator phone</li>
+        </ul>
+      </div>
+
+      <div class="risk-card">
+        <h3>🎬 Filming Continuity <span class="badge">MED</span></h3>
+        <ul>
+          <li>Camera car backup (photo assistant in Car D)</li>
+          <li>Main camera 8+8 batteries · High altitude drains fast</li>
+          <li>Every night <strong>mandatory backup</strong> to 2 hard drives</li>
+          <li>Pre-scout drone launch/land points · Watch plateau wind</li>
+          <li>Camera car reserves +20min buffer per node</li>
+        </ul>
+      </div>
+
+      <div class="risk-card">
+        <h3>👥 Personnel Fatigue <span class="badge">MED</span></h3>
+        <ul>
+          <li>4 veteran shots all on Day 2 · High energy cost</li>
+          <li>Day 2 lunch <strong>mandatory 1h rest</strong> · Veterans may opt out</li>
+          <li>New staff pair with veterans · Veterans can relax</li>
+          <li>No evening activity · Reserve 30min personal time</li>
+          <li>Fever / cold / severe fatigue → no high altitude</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">10</span>
+      <h2>Pre-Departure Checklist</h2>
+      <span class="sec-en">PRE-DEP</span>
+    </div>
+
+    <div class="fleet-grid">
+      <div class="car-card">
+        <h3>📋 T-7 (1 week before)</h3>
+        <ul>
+          <li><strong>Daerpu camp booking</strong>(pre-book · small capacity)</li>
+          <li><strong>Siguniangshan town accommodation</strong>(breakfast included)</li>
+          <li>Everyone starts Rhodiola</li>
+          <li>20-person roster confirmed (with emergency contacts)</li>
+          <li>5-vehicle condition check (tires / brakes / oil)</li>
+          <li>Walkie-talkie test · Main + backup channel</li>
+        </ul>
+      </div>
+
+      <div class="car-card">
+        <h3>📋 T-3 (3 days before)</h3>
+        <ul>
+          <li>Weather forecast monitoring · Rain backup plan activated</li>
+          <li>All personnel health declaration (cold / cough → no mountain)</li>
+          <li>Equipment final check · Lens / audio / drone</li>
+          <li>Hard drives formatted + backup equipment ready</li>
+          <li>Fleet number stickers + name cards printed</li>
+          <li>Altitude meds + oxygen cans in place</li>
+        </ul>
+      </div>
+
+      <div class="car-card">
+        <h3>📋 T-1 (1 day before)</h3>
+        <ul>
+          <li>All luggage loaded · Balanced across 5 cars</li>
+          <li>Warm clothes packed separately (mountain 10-15℃ lower than city)</li>
+          <li>Cash distributed per car (emergency)</li>
+          <li>Fleet group created · Emergency code agreed</li>
+          <li>Veterans communicated individually · Filming consent confirmed</li>
+        </ul>
+      </div>
+
+      <div class="car-card">
+        <h3>📋 T-0 (Departure day)</h3>
+        <ul>
+          <li>Xinmaolu 8 7:30 gather · Group photo</li>
+          <li>5 cars parked by number · Luggage final check</li>
+          <li>Walkie-talkie + comms equipment boot test</li>
+          <li>Drone battery full + prop check</li>
+          <li>Camera car E position confirmed pre-departure</li>
+          <li>Lead + rear lead in position</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">11</span>
+      <h2>Pending Team Confirmation</h2>
+      <span class="sec-en">CONFIRM</span>
+    </div>
+
+    <div class="principle">
+      The following items need team sign-off before final execution:
+    </div>
+
+    <div class="fleet-grid">
+      <div class="car-card">
+        <h3>⚠️ Personnel</h3>
+        <ul>
+          <li><strong>4 veterans identified</strong> (across 1999/2009/2019 three decade nodes? Confirm ASAP)</li>
+          <li><strong>16 new staff ratio</strong> (sales / service / admin / showroom)</li>
+          <li>Invite <strong>customer representatives</strong> 1-2 (boost Work + Customer theme)</li>
+          <li>Veteran health assessment · Adjust for those who can't do high altitude</li>
+        </ul>
+      </div>
+
+      <div class="car-card">
+        <h3>📍 Key Points</h3>
+        <ul>
+          <li><strong>Daerpu camp capacity</strong> · Holds 20? Tents needed?</li>
+          <li><strong>Siguniangshan town lodging</strong> · Upgrade to boutique? Backup needed?</li>
+          <li><strong>Dawei meeting bridge</strong> · 15min stop? (Heritage theme boost)</li>
+          <li><strong>Shenshuping tickets</strong> · Pre-book? Panda base guide?</li>
+        </ul>
+      </div>
+
+      <div class="car-card">
+        <h3>🎬 Filming</h3>
+        <ul>
+          <li><strong>5 specific vehicle models</strong> · All BYD? 7-seat needed?</li>
+          <li><strong>Camera car driver</strong> · Lead coordinator also drives? Separate?</li>
+          <li><strong>Drone flight permits</strong> · Lixiao Road + Daerpu zone restrictions?</li>
+          <li><strong>Audio</strong> · Dual backup? (Camera car + Car D)</li>
+        </ul>
+      </div>
+
+      <div class="car-card">
+        <h3>📋 Follow-up</h3>
+        <ul>
+          <li>Same-night post-shoot <strong>hard drive backup</strong> · Primary + secondary</li>
+          <li>Initial edit starts <strong>Day 4</strong> · Team confirm timing</li>
+          <li>4 veteran shots <strong>use authorization</strong> · Video release form</li>
+          <li>Real names · Individual veteran confirmation needed</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="foot">
+    Staff Line Self-Drive Loop Plan v1 · 3-Day Counterclockwise · 20 People 5 Vehicles · 2026-09-20 · Awaiting Team Confirmation
+  </div>
+
+</main>
+
+</body>
+</html>
