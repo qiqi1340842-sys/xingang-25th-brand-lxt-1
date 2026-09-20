@@ -1,0 +1,1384 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>员工线 · 自驾环路方案 v1</title>
+<style>
+  :root {
+    --xingang-red: #C8102E;
+    --xingang-red-deep: #8B0A1F;
+    --gold-heritage: #B8924A;
+    --ink: #1A1A1A;
+    --ink-soft: #4A4A4A;
+    --ink-mute: #8A8A8A;
+    --line: #E5E0D8;
+    --paper: #FAF7F2;
+    --paper-warm: #F2EDE4;
+    --snow: #F8F9FB;
+    --sky: #5B7E9F;
+    --sky-light: #E1E9F0;
+    --moss: #4A6741;
+    --moss-light: #DAE5D4;
+    --warn: #D97706;
+    --warn-bg: #FEF3C7;
+    --danger: #DC2626;
+    --danger-bg: #FEE2E2;
+    --shadow: 0 1px 3px rgba(26,26,26,0.06), 0 8px 24px rgba(26,26,26,0.04);
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Source Han Serif SC", "Noto Serif CJK SC", "Songti SC", "STSong", serif;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  body { padding: 0 0 80px; }
+  .sans { font-family: "Source Han Sans SC", "Noto Sans CJK SC", "PingFang SC", sans-serif; }
+
+  .hero {
+    background: linear-gradient(135deg, var(--xingang-red) 0%, var(--xingang-red-deep) 100%);
+    color: #fff;
+    padding: 56px 8% 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute; top: 0; right: 0; bottom: 0; width: 45%;
+    background: linear-gradient(135deg, transparent 0%, rgba(184,146,74,0.18) 100%);
+    pointer-events: none;
+  }
+  .hero-meta {
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    opacity: 0.85;
+    margin-bottom: 16px;
+  }
+  .hero h1 { font-size: 46px; font-weight: 700; margin: 0 0 12px; letter-spacing: 0.05em; }
+  .hero .sub { font-size: 18px; opacity: 0.92; margin: 0 0 4px; }
+  .hero .sub2 { font-size: 14px; opacity: 0.78; margin: 0; font-family: "Source Han Sans SC", sans-serif; }
+  .hero .tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+  .hero .tag {
+    display: inline-block;
+    padding: 4px 12px;
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 999px;
+    font-size: 12px;
+    font-family: "Source Han Sans SC", sans-serif;
+    letter-spacing: 0.05em;
+  }
+  .hero .tag.gold { background: var(--gold-heritage); border-color: var(--gold-heritage); }
+  .hero .tag.moss { background: var(--moss); border-color: var(--moss); }
+  .hero .tag.warn { background: var(--warn); border-color: var(--warn); }
+
+  main { max-width: 1280px; margin: 0 auto; padding: 0 5%; }
+
+  section { margin: 56px 0 0; }
+
+  .sec-head {
+    display: flex; align-items: baseline; gap: 16px;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 12px; margin-bottom: 28px;
+  }
+  .sec-num {
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 14px; font-weight: 700;
+    color: var(--xingang-red);
+    letter-spacing: 0.2em;
+  }
+  .sec-head h2 { font-size: 26px; font-weight: 700; margin: 0; letter-spacing: 0.05em; }
+  .sec-head .sec-en {
+    margin-left: auto;
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 12px; color: var(--ink-mute);
+    letter-spacing: 0.15em; text-transform: uppercase;
+  }
+
+  /* META GRID */
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .meta-grid .cell { background: #fff; padding: 16px 18px; }
+  .meta-grid .label {
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 11px; color: var(--ink-mute);
+    letter-spacing: 0.2em; text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .meta-grid .val { font-size: 14px; font-weight: 600; }
+  .meta-grid .val.red { color: var(--xingang-red); }
+  .meta-grid .val.gold { color: var(--gold-heritage); }
+  .meta-grid .val.moss { color: var(--moss); }
+  .meta-grid .val.sky { color: var(--sky); }
+
+  /* PRINCIPLE */
+  .principle {
+    background: var(--paper-warm);
+    border-left: 4px solid var(--xingang-red);
+    padding: 18px 24px; margin: 24px 0;
+    font-size: 14.5px; color: var(--ink-soft); line-height: 1.8;
+  }
+  .principle strong { color: var(--xingang-red); }
+
+  /* ROUTE SUMMARY */
+  .route-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .day-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    padding: 20px 22px;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--xingang-red);
+  }
+  .day-card.d2 { border-top-color: var(--gold-heritage); }
+  .day-card.d3 { border-top-color: var(--moss); }
+  .day-card .d-tag {
+    display: inline-block;
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--xingang-red);
+    letter-spacing: 0.2em;
+    margin-bottom: 8px;
+  }
+  .day-card.d2 .d-tag { color: var(--gold-heritage); }
+  .day-card.d3 .d-tag { color: var(--moss); }
+  .day-card h3 { margin: 0 0 12px; font-size: 18px; font-weight: 700; }
+  .day-card .route {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+  .day-card .stats {
+    display: flex; gap: 16px;
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 11px;
+    color: var(--ink-mute);
+    padding-top: 10px;
+    border-top: 1px dashed var(--line);
+  }
+  .day-card .stats strong { display: block; color: var(--ink); font-size: 14px; margin-top: 2px; }
+
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 32px; margin: 16px 0; }
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 8px; top: 6px; bottom: 6px;
+    width: 2px;
+    background: var(--line);
+  }
+  .tl-item { position: relative; padding: 8px 0 18px; }
+  .tl-item::before {
+    content: "";
+    position: absolute;
+    left: -28px; top: 12px;
+    width: 14px; height: 14px;
+    background: var(--xingang-red);
+    border: 2px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px var(--xingang-red);
+  }
+  .tl-item.gold::before { background: var(--gold-heritage); box-shadow: 0 0 0 1px var(--gold-heritage); }
+  .tl-item.moss::before { background: var(--moss); box-shadow: 0 0 0 1px var(--moss); }
+  .tl-item.sky::before { background: var(--sky); box-shadow: 0 0 0 1px var(--sky); }
+  .tl-time {
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 13px; font-weight: 700;
+    color: var(--xingang-red);
+    letter-spacing: 0.05em;
+    margin-bottom: 3px;
+  }
+  .tl-title { font-size: 15.5px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+  .tl-desc { font-size: 13.5px; color: var(--ink-soft); line-height: 1.65; margin-bottom: 6px; }
+  .tl-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+  .tl-tag {
+    display: inline-block;
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 10.5px;
+    padding: 2px 8px;
+    background: var(--snow);
+    border: 1px solid var(--line);
+    color: var(--ink-mute);
+    letter-spacing: 0.05em;
+    border-radius: 3px;
+  }
+  .tl-tag.t1 { background: var(--warn-bg); color: var(--warn); border-color: var(--warn); }
+  .tl-tag.t2 { background: var(--moss-light); color: var(--moss); border-color: var(--moss); }
+  .tl-tag.t3 { background: var(--sky-light); color: var(--sky); border-color: var(--sky); }
+
+  /* FLEET GRID */
+  .fleet-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .car-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    padding: 18px 22px;
+    box-shadow: var(--shadow);
+  }
+  .car-card h3 {
+    font-size: 16px; font-weight: 700; margin: 0 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed var(--line);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .car-card h3 .car-num {
+    background: var(--xingang-red);
+    color: #fff;
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 3px;
+  }
+  .car-card.b .car-num { background: var(--gold-heritage); }
+  .car-card.c .car-num { background: var(--moss); }
+  .car-card ul { list-style: none; padding: 0; margin: 0; }
+  .car-card li {
+    padding: 4px 0 4px 16px;
+    position: relative;
+    font-size: 13.5px; color: var(--ink-soft); line-height: 1.65;
+  }
+  .car-card li::before {
+    content: "·"; position: absolute; left: 4px; top: 4px;
+    color: var(--xingang-red); font-weight: 700;
+  }
+  .car-card li strong { color: var(--ink); }
+
+  /* RISK */
+  .risk-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .risk-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    padding: 18px 22px;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--warn);
+  }
+  .risk-card.high { border-left-color: var(--danger); }
+  .risk-card h3 {
+    font-size: 16px; font-weight: 700; margin: 0 0 10px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .risk-card .badge {
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 3px;
+    background: var(--warn-bg);
+    color: var(--warn);
+  }
+  .risk-card.high .badge { background: var(--danger-bg); color: var(--danger); }
+  .risk-card ul { list-style: none; padding: 0; margin: 0; }
+  .risk-card li {
+    padding: 5px 0 5px 18px;
+    position: relative;
+    font-size: 13.5px; color: var(--ink-soft); line-height: 1.65;
+    border-bottom: 1px dotted var(--line);
+  }
+  .risk-card li:last-child { border-bottom: none; }
+  .risk-card li::before {
+    content: ""; position: absolute;
+    left: 4px; top: 12px;
+    width: 5px; height: 5px;
+    background: var(--warn); border-radius: 50%;
+  }
+  .risk-card.high li::before { background: var(--danger); }
+  .risk-card li strong { color: var(--ink); }
+
+  /* INTERVIEW CARD (老员工特写) */
+  .iv-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    padding: 22px 26px;
+    margin-bottom: 14px;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--gold-heritage);
+  }
+  .iv-num {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 12px;
+  }
+  .iv-num .num {
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 12px; font-weight: 700;
+    color: var(--gold-heritage);
+    letter-spacing: 0.15em;
+  }
+  .iv-num .who {
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 11px; color: var(--ink-mute);
+    padding: 2px 8px;
+    background: var(--snow);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+  }
+  .iv-num .when {
+    margin-left: auto;
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 11px; color: var(--ink-mute);
+  }
+  .iv-q {
+    font-size: 16px; font-weight: 700;
+    color: var(--ink);
+    margin: 0 0 12px; line-height: 1.6;
+  }
+  .iv-meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding-top: 12px;
+    border-top: 1px dotted var(--line);
+  }
+  .iv-meta .field {
+    background: var(--snow);
+    padding: 10px 14px;
+    border-radius: 3px;
+  }
+  .iv-meta .lbl {
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 10px;
+    color: var(--ink-mute);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .iv-meta .content {
+    font-size: 13px; color: var(--ink-soft); line-height: 1.6;
+  }
+  .iv-meta .content strong { color: var(--ink); }
+  .iv-meta .content em.tip {
+    color: var(--xingang-red); font-style: normal; font-weight: 600;
+  }
+
+  /* ACTIVITY */
+  .act-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    padding: 18px 22px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 18px;
+    align-items: start;
+  }
+  .act-time {
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 12px; font-weight: 700;
+    color: var(--xingang-red);
+    letter-spacing: 0.05em;
+    padding-top: 3px;
+  }
+  .act-body h3 {
+    margin: 0 0 6px;
+    font-size: 15.5px; font-weight: 700;
+  }
+  .act-body p {
+    margin: 0 0 8px;
+    font-size: 13.5px; color: var(--ink-soft); line-height: 1.65;
+  }
+  .act-body .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .act-body .tag-tiny {
+    display: inline-block;
+    font-family: "Source Han Sans SC", sans-serif;
+    font-size: 10.5px;
+    padding: 2px 8px;
+    background: var(--snow);
+    border: 1px solid var(--line);
+    color: var(--ink-mute);
+    border-radius: 3px;
+  }
+  .act-body .tag-tiny.t1 { background: var(--warn-bg); color: var(--warn); border-color: var(--warn); }
+  .act-body .tag-tiny.t2 { background: var(--moss-light); color: var(--moss); border-color: var(--moss); }
+  .act-body .tag-tiny.t3 { background: var(--sky-light); color: var(--sky); border-color: var(--sky); }
+
+  /* THEME MATRIX */
+  table.theme-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    background: #fff;
+    margin-top: 8px;
+  }
+  .theme-table caption {
+    caption-side: top; text-align: left;
+    padding: 6px 0;
+    font-family: "Source Han Sans SC", sans-serif;
+    font-weight: 700; color: var(--ink);
+    font-size: 13px; letter-spacing: 0.05em;
+  }
+  .theme-table th, .theme-table td {
+    padding: 14px;
+    border: 1px solid var(--line);
+    vertical-align: top;
+    text-align: left;
+  }
+  .theme-table th {
+    background: var(--paper-warm);
+    font-family: "Source Han Sans SC", sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .theme-table .theme-1 { color: var(--warn); font-weight: 700; }
+  .theme-table .theme-2 { color: var(--moss); font-weight: 700; }
+  .theme-table .theme-3 { color: var(--sky); font-weight: 700; }
+  .theme-table td strong { color: var(--ink); }
+
+  /* FOOTNOTE */
+  .foot {
+    text-align: center; color: var(--ink-mute);
+    font-size: 12px; margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    font-family: "Source Han Sans SC", sans-serif;
+    letter-spacing: 0.1em;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 960px) {
+    .hero { padding: 40px 6% 32px; }
+    .hero h1 { font-size: 32px; }
+    main { padding: 0 5%; }
+    .meta-grid { grid-template-columns: repeat(2, 1fr); }
+    .route-grid { grid-template-columns: 1fr; }
+    .fleet-grid { grid-template-columns: 1fr; }
+    .risk-grid { grid-template-columns: 1fr; }
+    .iv-meta { grid-template-columns: 1fr; }
+    .act-card { grid-template-columns: 1fr; gap: 8px; }
+  }
+
+  @media print {
+    body { background: #fff; padding: 0; }
+    .hero { background: var(--xingang-red) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .day-card, .iv-card, .act-card, .car-card, .risk-card { box-shadow: none; page-break-inside: avoid; }
+    section { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-meta">员工线 · 自驾环路 · 9.22-24 · v1</div>
+  <h1>员工线 · 自驾环路方案</h1>
+  <p class="sub">3 天逆时针 · 20 人 5 台车 · 传承 + 工作 + 生活</p>
+  <p class="sub2">服务于 25 周年品牌升级 · FILM 03 · 配合老员工 4 段特写改造 + 群体活动</p>
+  <div class="tag-row">
+    <span class="tag">9.22-24 · 3 天</span>
+    <span class="tag gold">逆时针</span>
+    <span class="tag moss">20 人 5 台车</span>
+    <span class="tag warn">三主题并行</span>
+  </div>
+</header>
+
+<main>
+
+  <!-- 0. 总览 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">00</span>
+      <h2>总览</h2>
+      <span class="sec-en">OVERVIEW</span>
+    </div>
+
+    <div class="meta-grid">
+      <div class="cell">
+        <div class="label">档期</div>
+        <div class="val red">9.22-24 · 3 天</div>
+      </div>
+      <div class="cell">
+        <div class="label">方向</div>
+        <div class="val gold">逆时针</div>
+      </div>
+      <div class="cell">
+        <div class="label">人员</div>
+        <div class="val moss">20 人 · 4+ 老 + ? 新</div>
+      </div>
+      <div class="cell">
+        <div class="label">车队</div>
+        <div class="val sky">5 台（含共享跟拍车）</div>
+      </div>
+      <div class="cell">
+        <div class="label">总里程</div>
+        <div class="val">~600km · 最高 5922m</div>
+      </div>
+    </div>
+
+    <div class="principle">
+      <strong>核心原则</strong>：新老员工一同出行 + 自驾跟拍 + 群体活动 + 老员工 4 段特写穿插。<br>
+      三主题<strong>传承 + 工作 + 生活</strong>贯穿全程，不是按天分配，而是按场景交织——一个场景里能拍到多个主题。<br>
+      拍摄以「<strong>在路上</strong>」为主，「定点访谈」为辅。
+    </div>
+
+    <div class="route-grid">
+      <div class="day-card">
+        <span class="d-tag">DAY 1 · 9.22 周二</span>
+        <h3>破冰 · 团队建立</h3>
+        <div class="route">成都 → 映秀 → 汶川 → 桃坪羌寨 → 理县 → 朴头 → 毕棚沟 → 凉台沟 → <strong>大二普营地过夜</strong></div>
+        <div class="stats">
+          <div>距离<strong>~290km</strong></div>
+          <div>海拔<strong>500→5922→3850</strong></div>
+          <div>主题<strong>破冰</strong></div>
+        </div>
+      </div>
+      <div class="day-card d2">
+        <span class="d-tag">DAY 2 · 9.23 周三</span>
+        <h3>核心叙事 · 高潮</h3>
+        <div class="route">大二普 → 向花村 → 结斯冰川 → 小金 → 沃日 → 达维 → 猫鼻梁 → <strong>四姑娘山过夜</strong></div>
+        <div class="stats">
+          <div>距离<strong>~210km</strong></div>
+          <div>海拔<strong>3850→4481→3840</strong></div>
+          <div>主题<strong>高潮</strong></div>
+        </div>
+      </div>
+      <div class="day-card d3">
+        <span class="d-tag">DAY 3 · 9.24 周四</span>
+        <h3>收束 · 回归</h3>
+        <div class="route">四姑娘山 → 猫鼻梁 → 邓生沟 → 巴朗山 → 卧龙 → 神树坪 → 都江堰 → <strong>成都</strong></div>
+        <div class="stats">
+          <div>距离<strong>~210km</strong></div>
+          <div>海拔<strong>3840→6250→500</strong></div>
+          <div>主题<strong>收束</strong></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1. Day 1 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <h2>Day 1 · 9.22 周二 · 破冰 + 团队建立</h2>
+      <span class="sec-en">DAY 1 · BREAK-IN</span>
+    </div>
+
+    <div class="principle">
+      <strong>Day 1 主题词</strong>：相识 · 试探 · 找到"车队感"<br>
+      出发日，所有人都还拘谨，需要设计"破冰点"。重点不是拍什么，而是让老/新员工自然互动起来。
+    </div>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-time">07:30 · 成都集合</div>
+        <div class="tl-title">新茂路 8 号 · 出发前集合</div>
+        <div class="tl-desc">5 台车按编号停好 · 老/新员工自由组合上车 · 出发前大合影（10min）</div>
+        <div class="tl-tags">
+          <span class="tl-tag t2">传承</span>
+          <span class="tl-tag t3">生活</span>
+        </div>
+      </div>
+
+      <div class="tl-item gold">
+        <div class="tl-time">08:30 · 高速出发</div>
+        <div class="tl-title">成灌高速 → 都汶高速 · 第一段车行</div>
+        <div class="tl-desc">A 车领航 · 跟拍车副驾位跟拍车队行进（航拍 + 车内双机位）<br>每台车贴编号 + 老员工/新员工名字手卡</div>
+        <div class="tl-tags">
+          <span class="tl-tag t3">生活</span>
+          <span class="tl-tag t2">传承</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">11:00 · 汶川服务区 · 第一站</div>
+        <div class="tl-title">破冰点 ① · 老员工开场口播</div>
+        <div class="tl-desc">A 车最资深的 1 位老员工 · 在车上/服务区做 3min 开场介绍（"我是谁 / 这趟我想做什么"）<br>全车队对讲机同步听 · 收音杆在 A 车</div>
+        <div class="tl-tags">
+          <span class="tl-tag t2">传承</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">12:30 · 桃坪羌寨 · 午餐</div>
+        <div class="tl-title">藏羌午餐 + 老场景关联</div>
+        <div class="tl-desc">群体围桌 · 老员工聊"我第一次带客户走这条路是哪一年" · 群体反应镜头<br>不刻意访谈 · 重点拍"听故事的反应"</div>
+        <div class="tl-tags">
+          <span class="tl-tag t2">传承</span>
+          <span class="tl-tag t3">生活</span>
+          <span class="tl-tag t1">工作</span>
+        </div>
+      </div>
+
+      <div class="tl-item gold">
+        <div class="tl-time">14:30 · 毕棚沟/凉台沟 · 穿越段</div>
+        <div class="tl-title">毕棚沟快速打卡 + 雪山合影</div>
+        <div class="tl-desc">以"车行穿越"为主 · 主拍区月亮湾/燕子岩窝 停 1 次（20min 群体航拍 + 雪山合影）<br>不上牛心沟深处 · 不停留超过 2h · 留出精力上大二普</div>
+        <div class="tl-tags">
+          <span class="tl-tag t3">生活</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">17:00 · 大二普营地 · 抵达</div>
+        <div class="tl-title">营地分配 · 篝火 + 星空</div>
+        <div class="tl-desc">帐篷/营地分配（提前预订） · 简餐 · 19:30 篝火 + 群体合唱<br>20:30 星空拍摄（光污染低 · 可拍银河）· 老员工讲"在路上的第 1 个故事"</div>
+        <div class="tl-tags">
+          <span class="tl-tag t2">传承</span>
+          <span class="tl-tag t3">生活</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="principle" style="border-left-color: var(--warn); background: var(--warn-bg);">
+      <strong>⚠️ Day 1 风险</strong>：海拔跨度极大（500 → 5922 → 3850）· 高反风险高<br>
+      预案：①每车备氧气罐 + 葡萄糖口服液 ② 毕棚沟停留不超过 2h ③ 大二普营地强制早休息
+    </div>
+  </section>
+
+  <!-- 2. Day 2 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <h2>Day 2 · 9.23 周三 · 核心叙事 · 高潮</h2>
+      <span class="sec-en">DAY 2 · CORE</span>
+    </div>
+
+    <div class="principle">
+      <strong>Day 2 主题词</strong>：深入 · 共鸣 · "传承 + 工作"主题集中爆发<br>
+      4 位老员工单人特写集中在今天上午/下午的 2 个服务区拍摄。群体活动选最有视觉冲击力的草甸飞盘 + 草地野餐。
+    </div>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-time">07:00 · 大二普日出</div>
+        <div class="tl-title">雪山日出 · 群体打卡</div>
+        <div class="tl-desc">6:30 集合上山 10min · 拍雪山朝霞 + 群体剪影 · 无人机 1 次<br>08:00 早餐</div>
+        <div class="tl-tags">
+          <span class="tl-tag t3">生活</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">08:30 · 拔营出发</div>
+        <div class="tl-title">向花村段 · 高山草甸拍摄</div>
+        <div class="tl-desc">离开大二普 · 沿途草甸初现黄 · 跟拍车跟车队 · 副驾位抓老员工车内对话</div>
+        <div class="tl-tags">
+          <span class="tl-tag t2">传承</span>
+          <span class="tl-tag t1">工作</span>
+        </div>
+      </div>
+
+      <div class="tl-item gold">
+        <div class="tl-time">10:30 · 结斯冰川观景台 · 核心拍摄点 ①</div>
+        <div class="tl-title">老员工特写 #1 + #2 · 群体活动</div>
+        <div class="tl-desc">停车 1h · 内容：<br>
+          · 10min 群体航拍（雪山 + 车队 + 草地）<br>
+          · 20min <strong>老员工 #1 特写</strong>（5min 访谈 + 备 3 层追问）<br>
+          · 20min <strong>老员工 #2 特写</strong>（同上结构）<br>
+          · 10min 群体草地野餐 / 飞盘互动</div>
+        <div class="tl-tags">
+          <span class="tl-tag t2">传承</span>
+          <span class="tl-tag t3">生活</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">12:30 · 小金县城 · 午餐</div>
+        <div class="tl-title">路过补给 · 工作场景植入</div>
+        <div class="tl-desc">真实拍"车队进小金、加油、休整"· 老员工讲 1 个客户故事（车上口播 + 录像）</div>
+        <div class="tl-tags">
+          <span class="tl-tag t1">工作</span>
+          <span class="tl-tag t3">生活</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">14:30 · 达维/沃日段 · 红色教育</div>
+        <div class="tl-title">达维会师桥（可选）· 传承深意</div>
+        <div class="tl-desc">达维是红军长征会师地 · 老员工讲"传承"主题可与此景关联（看时间决定是否停车 15min）</div>
+        <div class="tl-tags">
+          <span class="tl-tag t2">传承</span>
+        </div>
+      </div>
+
+      <div class="tl-item gold">
+        <div class="tl-time">16:30 · 猫鼻梁观景台 · 核心拍摄点 ②</div>
+        <div class="tl-title">老员工特写 #3 + #4 · 收束前夜</div>
+        <div class="tl-desc">猫鼻梁观景台 · 4481m · 四姑娘山全景<br>
+          · 10min 群体合影（夕阳 + 雪山）<br>
+          · 20min <strong>老员工 #3 特写</strong><br>
+          · 20min <strong>老员工 #4 特写</strong><br>
+          · 20min 自由拍摄（群体游戏 / 单人剪影 / 收束金句预采）</div>
+        <div class="tl-tags">
+          <span class="tl-tag t2">传承</span>
+          <span class="tl-tag t3">生活</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">18:30 · 四姑娘山镇 · 入住</div>
+        <div class="tl-title">晚餐 + 卡拉 OK + 自由交流</div>
+        <div class="tl-desc">藏式晚餐 · 老员工主动点歌 / 讲"在路上想说的话"<br>· 不强制 · 跟拍自然互动</div>
+        <div class="tl-tags">
+          <span class="tl-tag t3">生活</span>
+          <span class="tl-tag t2">传承</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="principle" style="border-left-color: var(--warn); background: var(--warn-bg);">
+      <strong>⚠️ Day 2 拍摄重点</strong>：4 段老员工特写集中在结斯冰川 + 猫鼻梁两个拍摄点<br>
+      每个拍摄点预留 1h · 单段特写 20min · 3 层追问备好不出声 · 不要"被采访感"
+    </div>
+  </section>
+
+  <!-- 3. Day 3 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">03</span>
+      <h2>Day 3 · 9.24 周四 · 收束 · 回归</h2>
+      <span class="sec-en">DAY 3 · RETURN</span>
+    </div>
+
+    <div class="principle">
+      <strong>Day 3 主题词</strong>：放松 · 回忆 · 把 3 天变成一句话<br>
+      拍摄从"高强度"转入"松弛感"——让群体自由互动，捕捉自然的总结瞬间。**不安排回店**——把"回归"留在心里，不回到具体地点。
+    </div>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-time">08:00 · 四姑娘山 · 最后看山</div>
+        <div class="tl-title">晨雾 + 雪山 · 静拍 15min</div>
+        <div class="tl-desc">不组织活动 · 让愿意早起的人上山 · 拍"想说的话"自由素材<br>早餐后退房</div>
+        <div class="tl-tags">
+          <span class="tl-tag t3">生活</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">09:30 · 邓生沟 · 轻徒步</div>
+        <div class="tl-title">邓生沟 1h 徒步 · 老带新</div>
+        <div class="tl-desc">邓生沟是熊猫栖息地 · 林间步道 · 安排 4 位老员工各带 4-5 位新员工分组徒步<br>· 跟拍分组抓"老带新"自然对话（不在预设脚本里）</div>
+        <div class="tl-tags">
+          <span class="tl-tag t2">传承</span>
+          <span class="tl-tag t3">生活</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">11:30 · 巴朗山垭口 · 4523m 打卡</div>
+        <div class="tl-title">垭口留念 · 海拔极限合影</div>
+        <div class="tl-desc">停 15min · 群体合影 + 个人航拍 · 不停留太久（垭口气温低 + 风大）<br>· 跟拍车贴跟随</div>
+        <div class="tl-tags">
+          <span class="tl-tag t3">生活</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">13:00 · 卧龙 · 午餐 + 神树坪</div>
+        <div class="tl-title">神树坪看熊猫 · 群体放松</div>
+        <div class="tl-desc">熊猫基地 1h · 群体自然状态 · 不刻意访谈<br>· 重点抓"被熊猫治愈"的真实反应</div>
+        <div class="tl-tags">
+          <span class="tl-tag t3">生活</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">15:30 · 都汶高速 · 返程</div>
+        <div class="tl-title">车上总结 · 收束金句预采</div>
+        <div class="tl-desc">回程 3h · A 车跟拍车专门做"收束金句"拍摄：<br>· 每位老员工 1 句"这趟最想说的"<br>· 每位新员工 1 句"我接住了什么"<br>· 群体齐喊一句话（事先准备 / 现场感）</div>
+        <div class="tl-tags">
+          <span class="tl-tag t2">传承</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time">18:30 · 成都 · 解散</div>
+        <div class="tl-title">新茂路附近 · 车队解散</div>
+        <div class="tl-desc">不下车回店 · 直接在出发点附近解散 · 留 5min 群体合影 · 各自回家<br>· 跟拍抓"分别"自然瞬间</div>
+        <div class="tl-tags">
+          <span class="tl-tag t3">生活</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="principle" style="border-left-color: var(--moss); background: var(--moss-light);">
+      <strong>📌 Day 3 关键</strong>：返程的 3h 是"收束金句"的黄金窗口<br>
+      不安排回店，把"回归"留在路上 · 让每个人在车上自然说出"这趟的感悟"
+    </div>
+  </section>
+
+  <!-- 4. 三主题矩阵 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">04</span>
+      <h2>三主题 × 3 天 分布矩阵</h2>
+      <span class="sec-en">THEME MATRIX</span>
+    </div>
+
+    <table class="theme-table">
+      <caption>三主题（传承 / 工作 / 生活）按场景交织，不是按天分割</caption>
+      <thead>
+        <tr>
+          <th style="width:18%;">主题</th>
+          <th>Day 1 破冰</th>
+          <th>Day 2 高潮</th>
+          <th>Day 3 收束</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="theme-1">传承 50%</td>
+          <td>· 老员工 A 车开场口播<br>· 桃羌寨老员工聊"第一次带客户走这条路"<br>· 大二普星空讲"第一个故事"</td>
+          <td>· <strong>4 段老员工单人特写</strong>（结斯冰川 2 段 + 猫鼻梁 2 段）<br>· 邓生沟"老带新"分组徒步<br>· 老员工讲客户故事</td>
+          <td>· 收束金句（老员工 1 句）<br>· 老员工齐喊一句话<br>· 自然互动回看</td>
+        </tr>
+        <tr>
+          <td class="theme-2">工作 30%</td>
+          <td>· 路上加油 / 服务区休整</td>
+          <td>· 小金县城加油 / 补给拍摄<br>· 老员工车上讲"在路上接过的电话"<br>· 达维红色教育关联</td>
+          <td>· 服务区 / 卧龙自然动作<br>· 老员工帮新人解决小问题</td>
+        </tr>
+        <tr>
+          <td class="theme-3">生活 20%</td>
+          <td>· 桃羌寨藏式午餐<br>· 大二普篝火 + 星空<br>· 雪山合影</td>
+          <td>· 日出朝霞<br>· 结斯冰川草地野餐 / 飞盘<br>· 猫鼻梁群体游戏<br>· 藏式晚餐 + 卡拉 OK</td>
+          <td>· 邓生沟轻徒步<br>· 巴朗山垭口合影<br>· 神树坪看熊猫<br>· 车上卡拉 OK</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 5. 车队方案 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">05</span>
+      <h2>车队方案 · 5 台车</h2>
+      <span class="sec-en">FLEET PLAN</span>
+    </div>
+
+    <div class="principle">
+      <strong>车队原则</strong>：5 台车队 · 4 台自驾（20 人 / 4 = 5 人/车）+ 1 台共享跟拍车<br>
+      · 每台车贴编号 + 名字手卡 · 司机 + 乘客明确分工<br>
+      · 跟拍车不固定编队位置 · 在 A/B/C 之间灵活切换<br>
+      · 山路车队长度控制在 400m 内 · 每台车距 ≥ 80m
+    </div>
+
+    <div class="fleet-grid">
+      <div class="car-card">
+        <h3><span class="car-num">A 车</span> 领航 + 老员工主力</h3>
+        <ul>
+          <li><strong>5 人</strong>：司机 + 4 位最资深老员工</li>
+          <li>头车领航 · 控制车队节奏</li>
+          <li>对讲机主频 · 全程跟车队通话</li>
+          <li>出发前合影在最前面</li>
+          <li>Day 1 开场口播在这台车</li>
+          <li><strong>推荐车型</strong>：比亚迪唐 DM-p 7 座 · 主驾视野好 · 老员工乘坐舒适</li>
+        </ul>
+      </div>
+
+      <div class="car-card b">
+        <h3><span class="car-num">B 车</span> 中车 + 新员工为主</h3>
+        <ul>
+          <li><strong>5 人</strong>：司机 + 5 位新员工</li>
+          <li>中车位置 · 跟拍车重点跟</li>
+          <li>新员工配老员工 1 位（师徒搭配）</li>
+          <li>白天跟拍车副驾位 · 长焦抓车内对话</li>
+          <li><strong>推荐车型</strong>：比亚迪宋 PLUS DM-i 7 座</li>
+        </ul>
+      </div>
+
+      <div class="car-card c">
+        <h3><span class="car-num">C 车</span> 新员工混搭</h3>
+        <ul>
+          <li><strong>5 人</strong>：司机 + 5 位新员工</li>
+          <li>中车位置 · 跟拍车次重点跟</li>
+          <li>配老员工 1 位 · 讲"工作的第一次"</li>
+          <li><strong>推荐车型</strong>：比亚迪宋 PLUS DM-i 7 座</li>
+        </ul>
+      </div>
+
+      <div class="car-card">
+        <h3><span class="car-num">D 车</span> 殿后 + 老员工 + 摄影助理</h3>
+        <ul>
+          <li><strong>5 人</strong>：司机 + 4 位老员工 + 1 位摄影助理（备机 / 电池 / 备用）</li>
+          <li>殿后 · 跟拍车重点跟</li>
+          <li>摄影助理负责跟拍车不在线时的辅助抓拍</li>
+          <li>老员工配比相对高 · 适合车内访谈</li>
+          <li><strong>推荐车型</strong>：比亚迪唐 DM-p 7 座 · 装载能力强</li>
+        </ul>
+      </div>
+
+      <div class="car-card b" style="grid-column: span 2;">
+        <h3><span class="car-num">🚁 E 车 · 跟拍车（共享）</span></h3>
+        <ul>
+          <li><strong>3 人</strong>：司机 + 主摄影师 + 收音师 + 无人机飞手（飞行时副驾位）</li>
+          <li><strong>不固定编队</strong> · 在 A/B/C/D 之间灵活切换</li>
+          <li>配：Sony FX3 + 24-70mm + 70-200mm + 罗德 NTG5 + DJI Mavic 3 Pro + 收音杆 + 应急包</li>
+          <li>白天主要跟 B/C 车（拍摄师徒互动）· 关键节点跟 A 车</li>
+          <li>收束金句（Day 3 返程）专门跟 A 车 3h</li>
+          <li><strong>推荐车型</strong>：SUV 即可 · 装载设备 · 不需要 7 座</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="principle">
+      <strong>通讯保障</strong>：<br>
+      · 5 台车配对讲机（主频 + 备频）· 主频全车队听 · 备频领队专用<br>
+      · 微信群建车队群 · 山里无信号区提前标注（朴头→毕棚沟→凉台沟段 + 邓生沟段）<br>
+      · 每台车贴"新港自驾"车队标 + 编号 · 高海拔车厢外放应急包
+    </div>
+  </section>
+
+  <!-- 6. 老员工特写改造 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">06</span>
+      <h2>老员工 4 段特写 · 改造大纲</h2>
+      <span class="sec-en">INTERVIEW PLAN</span>
+    </div>
+
+    <div class="principle">
+      <strong>改造说明</strong>：基于采访脚本 v1 的 11 题体系，<strong>保留核心问题</strong>，但<strong>拍摄场景从"定点访谈"改成"在路上"</strong>。<br>
+      · 场景副驾位 / 后排位 / 服务区 / 观景台 · 边开边聊<br>
+      · 不追求"金句"，追求"在路上自然流露"<br>
+      · 拍摄集中在 Day 2 · 4 段 = 结斯冰川 2 段 + 猫鼻梁 2 段
+    </div>
+
+    <div class="iv-card">
+      <div class="iv-num">
+        <span class="num">特写 #1</span>
+        <span class="who">资深老员工 A · 车队位置 A 车后排</span>
+        <span class="when">Day 2 · 10:30 · 结斯冰川观景台</span>
+      </div>
+      <p class="iv-q">"你看着这个冰川，想起在新港的哪个时刻？"</p>
+      <div class="iv-meta">
+        <div class="field">
+          <div class="lbl">拍摄场景</div>
+          <div class="content">结斯冰川观景台 · 老员工面朝雪山 · <strong>长焦侧逆光</strong> · 自然光</div>
+        </div>
+        <div class="field">
+          <div class="lbl">三层追问</div>
+          <div class="content">L1 你当时在做什么？<br>L2 你当时怎么想？<br>L3 现在回头看，那一刻重要吗？</div>
+        </div>
+        <div class="field">
+          <div class="lbl">注意</div>
+          <div class="content"><em class="tip">不给反光板</em> · 5-8 秒沉默缓冲 · 不打断金句</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="iv-card">
+      <div class="iv-num">
+        <span class="num">特写 #2</span>
+        <span class="who">资深老员工 B · 车队位置 B 车副驾</span>
+        <span class="when">Day 2 · 11:00 · 结斯冰川观景台</span>
+      </div>
+      <p class="iv-q">"这趟出来，队伍里这帮新人，你想把什么传给他们？"</p>
+      <div class="iv-meta">
+        <div class="field">
+          <div class="lbl">拍摄场景</div>
+          <div class="content">结斯冰川观景台 · <strong>坐在草地</strong> · 中景 · 自然放松</div>
+        </div>
+        <div class="field">
+          <div class="lbl">三层追问</div>
+          <div class="content">L1 是哪类东西？<br>L2 怎么传给具体的人？<br>L3 哪一刻你觉得"传到了"？</div>
+        </div>
+        <div class="field">
+          <div class="lbl">注意</div>
+          <div class="content"><em class="tip">Q1+Q3 合并改造</em> · 让对方自然联想具体的人</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="iv-card">
+      <div class="iv-num">
+        <span class="num">特写 #3</span>
+        <span class="who">资深老员工 C · 车队位置 C 车后排</span>
+        <span class="when">Day 2 · 16:30 · 猫鼻梁观景台 4481m</span>
+      </div>
+      <p class="iv-q">"在车上这一路，你看到、想到什么？"</p>
+      <div class="iv-meta">
+        <div class="field">
+          <div class="lbl">拍摄场景</div>
+          <div class="content">猫鼻梁观景台 · <strong>面朝四姑娘山</strong> · 慢推近景 · 夕阳侧光</div>
+        </div>
+        <div class="field">
+          <div class="lbl">三层追问</div>
+          <div class="content">L1 哪个画面让你印象最深？<br>L2 那一瞬间你想到了谁？<br>L3 你想把这一刻告诉谁？</div>
+        </div>
+        <div class="field">
+          <div class="lbl">注意</div>
+          <div class="content"><em class="tip">Q6（路上场景）改造</em> · 适合"在路上"主题</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="iv-card">
+      <div class="iv-num">
+        <span class="num">特写 #4</span>
+        <span class="who">资深老员工 D · 车队位置 D 车副驾</span>
+        <span class="when">Day 2 · 17:00 · 猫鼻梁观景台 4481m</span>
+      </div>
+      <p class="iv-q">"如果用一句话，送给新港的下一个 25 年，你会说什么？"</p>
+      <div class="iv-meta">
+        <div class="field">
+          <div class="lbl">拍摄场景</div>
+          <div class="content">猫鼻梁观景台 · <strong>夕阳剪影</strong> · 黑起 → 字幕叠加<br>· 最纯粹的镜头 · 无干扰</div>
+        </div>
+        <div class="field">
+          <div class="lbl">三层追问</div>
+          <div class="content">L1 这句话你最在意哪个字？<br>L2 这句话谁会第一个听到？<br>L3 你自己会记住这句话吗？</div>
+        </div>
+        <div class="field">
+          <div class="lbl">注意</div>
+          <div class="content"><em class="tip">原 v1 Q11 保留</em> · 全片收束句 · 短小金句</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="principle">
+      <strong>总访谈时长</strong>：<br>
+      · 4 段 × 20min = <strong>80min</strong>（原 v1 是 30-45min 单人）<br>
+      · 实际可用素材约 30-40min（去掉寒暄 / 思考时间）<br>
+      · 拍摄集中在 Day 2 · 一天内完成 4 段 · 老员工状态可能疲劳 · 建议**不要安排在晚饭后**
+    </div>
+  </section>
+
+  <!-- 7. 群体活动 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">07</span>
+      <h2>群体活动设计</h2>
+      <span class="sec-en">GROUP ACTIVITIES</span>
+    </div>
+
+    <div class="act-card">
+      <div class="act-time">Day 1<br>19:30</div>
+      <div class="act-body">
+        <h3>🔥 大二普营地篝火 + 星空</h3>
+        <p>老员工讲"第一个故事" · 群体围火 · 自然互动 · 拍星空（光污染低）</p>
+        <div class="tags">
+          <span class="tag-tiny t2">传承</span>
+          <span class="tag-tiny t3">生活</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="act-card">
+      <div class="act-time">Day 2<br>10:50</div>
+      <div class="act-body">
+        <h3>🏔️ 结斯冰川草地野餐 + 飞盘</h3>
+        <p>雪山背景下 · 群体自然互动 · 老带新自由分组 · 拍"自然瞬间"</p>
+        <div class="tags">
+          <span class="tag-tiny t2">传承</span>
+          <span class="tag-tiny t3">生活</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="act-card">
+      <div class="act-time">Day 2<br>17:00</div>
+      <div class="act-body">
+        <h3>📸 猫鼻梁夕阳合影 + 自由活动</h3>
+        <p>夕阳 + 四姑娘山全景 · 群体合影 + 个人航拍 · 自由活动 20min</p>
+        <div class="tags">
+          <span class="tag-tiny t3">生活</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="act-card">
+      <div class="act-time">Day 2<br>20:00</div>
+      <div class="act-body">
+        <h3>🎤 藏式晚餐 + 卡拉 OK</h3>
+        <p>老员工主动点歌 · 群体合唱 · 拍"主动讲"的真实瞬间 · 不强制访谈</p>
+        <div class="tags">
+          <span class="tag-tiny t2">传承</span>
+          <span class="tag-tiny t3">生活</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="act-card">
+      <div class="act-time">Day 3<br>15:30</div>
+      <div class="act-body">
+        <h3>🚗 返程车上卡拉 OK + 收束金句</h3>
+        <p>回程 3h · 老员工每人 1 句"这趟最想说的" · 新员工每人 1 句"我接住了什么" · 群体齐喊</p>
+        <div class="tags">
+          <span class="tag-tiny t2">传承</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. 设备 + 后勤 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">08</span>
+      <h2>设备 + 后勤 + 应急</h2>
+      <span class="sec-en">EQUIPMENT</span>
+    </div>
+
+    <div class="fleet-grid">
+      <div class="car-card">
+        <h3>🎥 E 车 · 跟拍车装载</h3>
+        <ul>
+          <li>Sony FX3 + 24-70mm f2.8（中景主力）</li>
+          <li>Sony A7C + 70-200mm f2.8（长焦）</li>
+          <li>罗德 NTG5 + 挑杆（双备份）</li>
+          <li>DJI Mavic 3 Pro（高原版 + 桨叶备件）</li>
+          <li>RS 3 Pro 稳定器（一镜到底）</li>
+          <li>三脚架 + 反光板（弱光环境用）</li>
+          <li>电池 8+8 块 · 高原耗电快</li>
+          <li>硬盘 4 块（每晚备份）</li>
+        </ul>
+      </div>
+
+      <div class="car-card">
+        <h3>🚐 每台自驾装载（4 台）</h3>
+        <ul>
+          <li>应急包：氧气罐 × 2 / 葡萄糖 × 5 / 急救包</li>
+          <li>备用油桶 × 1（20L）· 高海拔耗油高</li>
+          <li>充电宝 × 1（20000mAh）· 山里可能无服务区充电</li>
+          <li>离线地图下载（高德 / 百度）</li>
+          <li>现金 1000 元 · 山里无信号无商店</li>
+          <li>保暖衣物 · 9 月底山上 5-10℃</li>
+          <li>雨衣 + 头灯 · 防下雨 + 应急照明</li>
+        </ul>
+      </div>
+
+      <div class="car-card">
+        <h3>📱 通讯 + 协调</h3>
+        <ul>
+          <li>对讲机 6 台（A/B/C/D/E 车各 1 + 领队备用 1）</li>
+          <li>主频 + 备频（山区电磁环境复杂）</li>
+          <li>车队微信群 · 每晚 21:00 复盘</li>
+          <li>总领队 1 位（A 车 + 1 位资深员工）</li>
+          <li>收尾领队 1 位（D 车 + 1 位老员工）</li>
+          <li>跟拍车随时向总领队报位置</li>
+        </ul>
+      </div>
+
+      <div class="car-card">
+        <h3>🏥 应急 + 安全</h3>
+        <ul>
+          <li>常备药：感冒药 / 头痛药 / 肠胃药 / 创可贴</li>
+          <li>高反药：红景天（出发前 3 天开始服用）/ 高原安</li>
+          <li>氧气罐 x10（5 台车各 2）</li>
+          <li>葡萄糖口服液 x20（每车 4）</li>
+          <li>紧急联系人（医疗 / 救援 / 4S 店）</li>
+          <li>每台车贴车队编号 + 应急联系电话</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. 风险预案 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">09</span>
+      <h2>风险预案</h2>
+      <span class="sec-en">RISK PLAN</span>
+    </div>
+
+    <div class="risk-grid">
+      <div class="risk-card high">
+        <h3>🏔️ 高反风险 <span class="badge">高</span></h3>
+        <ul>
+          <li><strong>Day 1 跨度大</strong>：500→5922→3850，第一天风险最高</li>
+          <li>红景天 <strong>出发前 3 天开始服用</strong>，所有人必服</li>
+          <li>每车氧气罐 2 + 葡萄糖 4</li>
+          <li>毕棚沟<strong>不上牛心沟深处</strong>· 停留 ≤2h</li>
+          <li>出现高反立即下撤到理县（1888m）</li>
+          <li>Day 2 早上评估 · 高反严重者不再上猫鼻梁</li>
+        </ul>
+      </div>
+
+      <div class="risk-card high">
+        <h3>🌧️ 天气风险 <span class="badge">高</span></h3>
+        <ul>
+          <li>9 月底川西多雨 · 提前 3 天查天气预报</li>
+          <li>雨天优先拍车内 + 营地 · 户外少停</li>
+          <li>理小路朴头→毕棚沟段雨后有塌方风险</li>
+          <li>邓生沟 + 巴朗山垭口雨雾概率高</li>
+          <li>雨衣 + 镜头防雨罩 5 套（每车 1 套）</li>
+        </ul>
+      </div>
+
+      <div class="risk-card">
+        <h3>🚗 路况风险 <span class="badge">中</span></h3>
+        <ul>
+          <li>理小路（朴头→毕棚沟→凉台沟→大二普）急弯多 · 单行线段需会车让行</li>
+          <li>邓生沟到巴朗山垭口路段 <strong>注意落石</strong></li>
+          <li>每车配离线地图 · 信号丢失区提前标注</li>
+          <li>车队长度控制在 400m 内 · 每台车距 ≥ 80m</li>
+          <li>司机出发前必须熟悉路线 · 不熟悉山路者不上车</li>
+        </ul>
+      </div>
+
+      <div class="risk-card">
+        <h3>📵 通讯风险 <span class="badge">中</span></h3>
+        <ul>
+          <li>朴头→毕棚沟→凉台沟段 + 邓生沟段 <strong>手机无信号</strong></li>
+          <li>对讲机主频全车队听 · 备频领队专用</li>
+          <li>无信号段提前标注 · 约定应急暗号</li>
+          <li>每台车应急联系电话贴车内</li>
+          <li>救援电话 / 医疗 / 4S 店电话提前存总领队手机</li>
+        </ul>
+      </div>
+
+      <div class="risk-card">
+        <h3>🎬 拍摄连续性 <span class="badge">中</span></h3>
+        <ul>
+          <li>跟拍车备机（摄影助理在 D 车）</li>
+          <li>主摄备电池 8+8 块 · 高原耗电快</li>
+          <li>每天晚上<strong>强制备份</strong>素材到 2 块硬盘</li>
+          <li>无人机起降点提前踩点 · 注意高原风</li>
+          <li>跟拍车单独预算延误时间（每节点 +20min 缓冲）</li>
+        </ul>
+      </div>
+
+      <div class="risk-card">
+        <h3>👥 人员疲劳 <span class="badge">中</span></h3>
+        <ul>
+          <li>老员工 4 段特写集中在 Day 2 · 体力消耗大</li>
+          <li>Day 2 中午预留<strong>1h 强制休息</strong>· 老员工可不上</li>
+          <li>新员工配老员工师徒 · 老员工能放松</li>
+          <li>晚上不组织晚活动 · 留 30min 个人时间</li>
+          <li>发烧 / 感冒 / 严重疲惫者不上高海拔</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. 准备清单 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">10</span>
+      <h2>出发前准备清单</h2>
+      <span class="sec-en">PRE-DEP</span>
+    </div>
+
+    <div class="fleet-grid">
+      <div class="car-card">
+        <h3>📋 T-7（出发前 1 周）</h3>
+        <ul>
+          <li><strong>大二普营地预订</strong>（提前预订 · 容量小）</li>
+          <li><strong>四姑娘山镇住宿预订</strong>（含早）</li>
+          <li>所有人红景天开始服用</li>
+          <li>20 人名单确认（含紧急联系人）</li>
+          <li>5 台车辆状况检查（轮胎 / 刹车 / 机油）</li>
+          <li>对讲机测试 · 主频 + 备频</li>
+        </ul>
+      </div>
+
+      <div class="car-card">
+        <h3>📋 T-3（出发前 3 天）</h3>
+        <ul>
+          <li>天气预报持续监测 · 雨备预案启动</li>
+          <li>所有人员健康申报（有感冒 / 咳嗽不上山）</li>
+          <li>设备最终检查 · 镜头 / 收音 / 无人机</li>
+          <li>硬盘格式化 + 备份设备就位</li>
+          <li>车队编号贴 + 名字手卡打印</li>
+          <li>高反药 + 氧气罐到位</li>
+        </ul>
+      </div>
+
+      <div class="car-card">
+        <h3>📋 T-1（出发前 1 天）</h3>
+        <ul>
+          <li>所有行李装车 · 5 台车均衡分配</li>
+          <li>保暖衣物单独打包（山上比山下低 10-15℃）</li>
+          <li>现金分发到每台车（应急用）</li>
+          <li>车队群组建 · 应急暗号约定</li>
+          <li>老员工单独沟通 · 拍摄意愿确认</li>
+        </ul>
+      </div>
+
+      <div class="car-card">
+        <h3>📋 T-0（出发当天）</h3>
+        <ul>
+          <li>新茂路 8 号 7:30 集合 · 大合影</li>
+          <li>5 台车按编号停好 · 行李最后确认</li>
+          <li>对讲机 + 通讯设备开机测试</li>
+          <li>无人机电池充满 + 桨叶检查</li>
+          <li>跟拍车出发前确认 E 车位</li>
+          <li>总领队 + 收尾领队各就位</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. 待确认 -->
+  <section>
+    <div class="sec-head">
+      <span class="sec-num">11</span>
+      <h2>待团队确认事项</h2>
+      <span class="sec-en">CONFIRM</span>
+    </div>
+
+    <div class="principle">
+      以下事项需要团队拍板后才能进入最终执行：
+    </div>
+
+    <div class="fleet-grid">
+      <div class="car-card">
+        <h3>⚠️ 人员</h3>
+        <ul>
+          <li><strong>4 位老员工人选</strong>（跨 1999/2009/2019 三个 10 年节点？建议尽快确定）</li>
+          <li><strong>16 位新员工配比</strong>（销售 / 售后 / 行政 / 展厅）</li>
+          <li>是否邀请<strong>车主代表</strong> 1-2 位（增加"工作 + 客户"主题）</li>
+          <li>老员工身体状况评估 · 不能上高海拔者提前调整</li>
+        </ul>
+      </div>
+
+      <div class="car-card">
+        <h3>📍 关键点</h3>
+        <ul>
+          <li><strong>大二普营地住宿容量</strong> · 是否能容纳 20 人 / 是否需要帐篷</li>
+          <li><strong>四姑娘山镇住宿</strong> · 是否升级为精品民宿 / 是否需要备选</li>
+          <li><strong>达维会师桥</strong> · 是否停车 15min（传承主题加分）</li>
+          <li><strong>神树坪门票</strong> · 提前订票 / 是否需要熊猫基地讲解</li>
+        </ul>
+      </div>
+
+      <div class="car-card">
+        <h3>🎬 拍摄</h3>
+        <ul>
+          <li><strong>5 台车的具体车型</strong> · 是否都用比亚迪 / 是否需要 7 座</li>
+          <li><strong>跟拍车司机</strong> · 是否总领队兼 / 是否单独配</li>
+          <li><strong>无人机起降许可</strong> · 理小路 + 大二普段是否有限飞</li>
+          <li><strong>收音</strong> · 是否双备份（跟拍车 + D 车）</li>
+        </ul>
+      </div>
+
+      <div class="car-card">
+        <h3>📋 后续</h3>
+        <ul>
+          <li>拍摄结束后<strong>当天晚上</strong>硬盘备份 · 主备份 + 副备份</li>
+          <li>素材初剪<strong>Day 4 开始</strong> · 团队确认时间</li>
+          <li>老员工特写 4 段<strong>授权使用</strong> · 视频授权协议</li>
+          <li>如需使用真实姓名 · 老员工单独确认</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="foot">
+    员工线自驾环路方案 v1 · 3 天逆时针 · 20 人 5 台车 · 2026-09-20 · 待团队确认后定稿
+  </div>
+
+</main>
+
+</body>
+</html>
